@@ -1,0 +1,456 @@
+[OAuth] ERROR: OAUTH_SERVER_URL is not configured! Set OAUTH_SERVER_URL environment variable.
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+Erro ao buscar série BCB 432: Error: Falha na resposta do BCB
+    at fetchBcbData (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\indicators.ts:12:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Promise.all (index 0)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\indicators.ts:32:40)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 2)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[SerpAPI] SERPAPI_API_KEY não configurada
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+Erro ao buscar série BCB 432: Error: Falha na resposta do BCB
+    at fetchBcbData (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\indicators.ts:12:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Promise.all (index 0)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\indicators.ts:32:40)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 2)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[Gemini] gemini-1.5-flash falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash is 
+[Gemini] gemini-1.5-flash-latest falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-flash-lat
+[Gemini] gemini-2.0-flash falhou: 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current q
+[Gemini] gemini-1.5-pro falhou: 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-1.5-pro is no
+[Auth] Missing session cookie
+[Auth] Missing session cookie

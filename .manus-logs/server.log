@@ -1,0 +1,891 @@
+[OAuth] Initialized with baseURL: 
+Server running on http://localhost:3000/
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Store] Baixando ZIP e DFIN...
+[Refinancing] Buscando oportunidades com Gemini...
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:28)
+    at callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:26)
+    at procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:26)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:37)
+    at Array.map (<anonymous>)
+    at resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:333:33)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 2)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 2)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 2)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 2)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 2)
+[CVM Store] Linhas: classe=13780 geral=6930 fluxo=6930 ap=6930
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[News] Buscando notícias de CRI...
+[News] Tentando Google News RSS...
+[News] Buscando notícias de CRI...
+[News] Tentando Google News RSS...
+[CVM Store] DFIN: 2233 entradas
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[CVM Targeted] 27 CRIs de Éxes/BARI/Riza (até 2030)
+[CVM] 80 gerais + 27 Éxes/BARI/Riza = 107 total
+[New Launches] 6 novos lançamentos encontrados
+[GoogleRSS] 84 notícias obtidas via RSS
+[News] Total: 20 notícias carregadas
+[GoogleRSS] 84 notícias obtidas via RSS
+[News] Total: 20 notícias carregadas
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m14:51:16[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/Home.tsx[22m
+[2m14:51:29[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Home.tsx, /src/index.css[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News] Buscando notícias de CRI...
+[News] Tentando Google News RSS...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[New Launches] 6 novos lançamentos encontrados
+[GoogleRSS] 84 notícias obtidas via RSS
+[News] Total: 20 notícias carregadas
+[Refinancing] Retornando dados em cache
+[2m15:06:47[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/Home.tsx[22m
+[2m15:06:56[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Home.tsx, /src/index.css[22m
+[2m15:07:11[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Home.tsx, /src/index.css[22m
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Refinancing] Buscando oportunidades com Gemini...
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:28)
+    at callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:26)
+    at procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:26)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:37)
+    at Array.map (<anonymous>)
+    at resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:333:33)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing] Retornando dados em cache
+[2m15:22:34[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Home.tsx, /src/index.css[22m
+[Refinancing] Retornando dados em cache
+[News] Buscando notícias de CRI...
+[News] Tentando Google News RSS...
+[New Launches] 6 novos lançamentos encontrados
+[GoogleRSS] 84 notícias obtidas via RSS
+[News] Total: 20 notícias carregadas
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m15:31:28[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Home.tsx, /src/index.css[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m15:40:32[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/OpportunitiesAlert.tsx[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m15:40:38[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/OpportunitiesAlert.tsx[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m15:40:46[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/OpportunitiesAlert.tsx[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m15:40:55[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/OpportunitiesAlert.tsx[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News] Buscando notícias de CRI...
+[News] Tentando Google News RSS...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[New Launches] 6 novos lançamentos encontrados
+[GoogleRSS] 82 notícias obtidas via RSS
+[News] Total: 20 notícias carregadas
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Buscando oportunidades com Gemini...
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:28)
+    at callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:26)
+    at procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:26)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:37)
+    at Array.map (<anonymous>)
+    at resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:333:33)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[News] Buscando notícias de CRI...
+[News] Tentando Google News RSS...
+[New Launches] 6 novos lançamentos encontrados
+[GoogleRSS] 84 notícias obtidas via RSS
+[News] Total: 20 notícias carregadas
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[News] Buscando notícias de CRI...
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[News] Tentando Google News RSS...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[New Launches] 6 novos lançamentos encontrados
+[GoogleRSS] 84 notícias obtidas via RSS
+[News] Total: 20 notícias carregadas
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Buscando oportunidades com Gemini...
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:28)
+    at callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:26)
+    at procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:26)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:37)
+    at Array.map (<anonymous>)
+    at resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:333:33)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 1)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 1)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 1)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 1)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 1)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Refinancing] Retornando dados em cache
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[News] Buscando notícias de CRI...
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[News] Tentando Google News RSS...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[GoogleRSS] 88 notícias obtidas via RSS
+[News] Total: 20 notícias carregadas
+[New Launches] 6 novos lançamentos encontrados
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[CVM Cache] 107 CRIs
+[News] Buscando notícias de CRI...
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[News] Tentando Google News RSS...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[New Launches] 6 novos lançamentos encontrados
+[GoogleRSS] 88 notícias obtidas via RSS
+[News] Total: 20 notícias carregadas
+[Refinancing] Buscando oportunidades com Gemini...
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:28)
+    at callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:26)
+    at procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:26)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:37)
+    at Array.map (<anonymous>)
+    at resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:333:33)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Refinancing Analysis] Gemini indisponível: Error: OPENAI_API_KEY is not configured
+    at assertApiKey (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:219:11)
+    at invokeLLM (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\_core\llm.ts:269:3)
+    at analyzeWithGemini (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:110:28)
+    at <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\server\routers\refinancing-analysis.ts:171:39)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async resolveMiddleware (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:576:22)
+    at async callRecursive (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:642:20)
+    at async procedure (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\procedureBuilder.ts:682:20)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:375:31)
+    at async Promise.all (index 0)
+    at async resolveResponse (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\unstable-core-do-not-import\http\resolveResponse.ts:681:35)
+    at async <anonymous> (C:\Users\corpa\OneDrive\Desktop\Aventos-cri-dashboard\node_modules\@trpc\server\src\adapters\node-http\nodeHTTPRequestHandler.ts:100:26)
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Refinancing] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m17:13:10[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/OpportunitiesAlert.tsx[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m17:16:08[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/OpportunitiesAlert.tsx[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m17:16:13[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/OpportunitiesAlert.tsx[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m17:23:38[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/GeminiChat.tsx[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m17:31:13[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m17:31:14[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m Re-optimizing dependencies because lockfile has changed
+[2m17:31:14[22m [36m[1m[vite][22m[39m server restarted.
+[2m17:31:19[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/GeminiChat.tsx[22m
+[2m17:31:27[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/GeminiChat.tsx[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News] Buscando notícias de CRI...
+[News] Tentando Google News RSS...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[New Launches] 6 novos lançamentos encontrados
+[GoogleRSS] 84 notícias obtidas via RSS
+[News] Total: 20 notícias carregadas
+[Gemini Chat] Mensagem: O que é um CRI
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[2m17:38:55[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/GeminiChat.tsx[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Gemini Chat] Mensagem: Quais são as melhores oportunidades de CRI no merc
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m17:46:03[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/GeminiChat.tsx[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m17:47:05[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/GeminiChat.tsx[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Gemini Chat] Mensagem: Quais são as melhores oportunidades de CRI no merc
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m17:50:25[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/index.css, /src/components/GeminiChat.tsx[22m
+[2m17:50:51[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Home.tsx, /src/index.css[22m
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News] Buscando notícias de CRI...
+[News] Tentando Google News RSS...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[New Launches] 6 novos lançamentos encontrados
+[GoogleRSS] 84 notícias obtidas via RSS
+[News] Total: 20 notícias carregadas
+[Gemini Chat] Mensagem: Quais são as melhores oportunidades de CRI no merc
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[2m17:59:32[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/pages/Home.tsx, /src/index.css[22m
+[2m18:02:04[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m18:02:04[22m [36m[1m[vite][22m[39m server restarted.
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[2m18:03:24[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m18:03:24[22m [36m[1m[vite][22m[39m server restarted.
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Gemini Chat] Mensagem: Quais são as melhores oportunidades de CRI no merc
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Gemini Chat] Mensagem: Quais são as melhores oportunidades de CRI no merc
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[Gemini Chat] Mensagem: pq ainda n está
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Gemini Chat] Mensagem: Quem é você?
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[CVM Cache] 107 CRIs
+[News Cache] Retornando dados em cache
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Gemini Chat] Mensagem: Quais são os principais riscos do mercado de CRI a
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[Gemini Chat] Mensagem: O que é um CRI?
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[Gemini Chat] Mensagem: O que Significa CRI.
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Gemini Chat] Mensagem: Qual a diferença de um CRI para um CRA?
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Gemini Chat] Mensagem: detalhe as melhores oportunidades da base
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[Gemini Chat] Mensagem: O que é um CRI?
+[Gemini] Tentando modelo gemini-1.5-flash...
+[Gemini] Tentando modelo gemini-1.5-flash-latest...
+[Gemini] Tentando modelo gemini-2.0-flash...
+[Gemini] Tentando modelo gemini-1.5-pro...
+[Chat] APIs indisponíveis — usando base de conhecimento local
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
+[Opportunities] Monitorando CRIs vencendo via CVM...
+[Opportunities] 17 CRIs High Yield/Centro-Oeste vencendo em até 180 dias
