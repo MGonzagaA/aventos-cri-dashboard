@@ -98,14 +98,20 @@ export const authLocalRouter = router({
       // ── Tentar via Supabase REST ──────────────────────────────────────────
       if (supabase) {
         const user = await findUserByEmail(input.email);
-        if (!user?.password_hash) throw new Error("Email ou senha incorretos");
 
-        const valid = await bcrypt.compare(input.password, user.password_hash);
-        if (!valid) throw new Error("Email ou senha incorretos");
-        if (user.status === "inactive") throw new Error("Usuário inativo. Contate o administrador.");
+        if (user?.password_hash) {
+          const valid = await bcrypt.compare(input.password, user.password_hash);
+          if (!valid) throw new Error("Email ou senha incorretos");
+          if (user.status === "inactive") throw new Error("Usuário inativo. Contate o administrador.");
+          updateUserLastSeen(user.id).catch(() => {});
+          authUser = { id: user.id, email: user.email, name: user.name ?? "", role: user.role };
 
-        updateUserLastSeen(user.id).catch(() => {});
-        authUser = { id: user.id, email: user.email, name: user.name ?? "", role: user.role };
+        // ── Fallback admin hardcoded (tabela ainda não inicializada ou admin não semeado)
+        } else if (input.email === ADMIN_EMAIL && input.password === ADMIN_PASS) {
+          authUser = { id: 0, email: ADMIN_EMAIL, name: "Matheus Gonzaga", role: "admin" };
+        } else {
+          throw new Error("Email ou senha incorretos");
+        }
 
       // ── Fallback hardcoded quando sem banco ───────────────────────────────
       } else {
