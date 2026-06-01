@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { useAuth } from '@/_core/hooks/useAuth';
 import { GeminiChat } from '@/components/GeminiChat';
 import { OpportunitiesAlert } from '@/components/OpportunitiesAlert';
 import RefinancingAnalysis from '@/components/RefinancingAnalysis';
@@ -13,7 +12,6 @@ import {
 } from 'lucide-react';
 import { useCRIData, CRIData, IndicatorData, NewsItem } from '@/hooks/useCRIData';
 import { AdminPanel } from '@/components/AdminPanel';
-import { trpc } from '@/lib/trpc';
 import { criDocuments as criDocumentsData, criCentroOeste as criCentroOesteData, criHighYield as criHighYieldData } from '@/data/criData';
 import {
   PieChart as RechartsPie, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid,
@@ -130,11 +128,7 @@ const getCategoryColor = (cat: string) => {
 
 export default function Home() {
   // The userAuth hooks provides authentication state
-  // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
-  let { user, loading: authLoading, error: authError, isAuthenticated, logout } = useAuth();
-  const { data: localUser } = trpc.authLocal.me.useQuery(undefined, { staleTime: 5 * 60 * 1000 });
-  const logoutLocal = trpc.authLocal.logout.useMutation({ onSuccess: () => { window.location.href = '/'; } });
-  const isAdmin = localUser?.role === 'admin';
+  const isAdmin = false;
 
   const { cris: criFromDB, indicators: indicatorsFromDB, news: newsFromDB, loading, error, refetchNews, isFetchingNews } = useCRIData();
   const brasiliaTime = useBrasiliaTime();
@@ -806,21 +800,6 @@ export default function Home() {
                   <tab.icon className="w-3.5 h-3.5" /><span className="hidden md:inline">{tab.label}</span>
                 </button>
               ))}
-              {localUser && (
-                <span className="hidden md:block text-[10px] px-2" style={{ color: 'rgba(196,233,249,0.35)', fontFamily: "'Poppins', sans-serif" }}>
-                  {localUser.name?.split(' ')[0]}
-                </span>
-              )}
-              <div className="w-px h-5 bg-white/10 mx-1" />
-              <button
-                onClick={() => logoutLocal.mutate()}
-                disabled={logoutLocal.isPending}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all text-[#C4E9F9]/40 hover:text-red-400 hover:bg-red-500/10"
-                title="Sair"
-              >
-                <X className="w-3.5 h-3.5" />
-                <span className="hidden md:inline">Sair</span>
-              </button>
             </div>
           </div>
         </div>
