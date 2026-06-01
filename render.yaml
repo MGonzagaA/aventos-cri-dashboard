@@ -3,9 +3,8 @@ services:
     name: aventos-cri-dashboard
     runtime: node
     plan: free
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    buildCommand: npm install --include=dev --legacy-peer-deps && npm run build
     startCommand: node dist/index.js
-    nodeVersion: 20.19.0
     envVars:
       - key: NODE_ENV
         value: production
