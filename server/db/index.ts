@@ -17,6 +17,7 @@ const client = connectionString
     })
   : null;
 
-export const db = client ? drizzle(client, { schema }) : null as unknown as ReturnType<typeof drizzle<typeof schema>>;
+export const db     = client ? drizzle(client, { schema }) : null as unknown as ReturnType<typeof drizzle<typeof schema>>;
+export const sqlRaw = client; // postgres.js client para DDL direto
 
 export * from "../../drizzle/schema";

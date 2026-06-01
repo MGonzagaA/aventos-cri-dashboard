@@ -91,28 +91,42 @@ export const authLocalRouter = router({
       password: z.string(),
     }))
     .mutation(async ({ input, ctx }) => {
-      if (!db) throw new Error("Banco não configurado");
+      let authUser: { id: number; email: string; name: string; role: string } | null = null;
 
-      const rows = await db.select().from(users)
-        .where(eq(users.email, input.email)).limit(1);
-      const user = rows[0];
+      // ── Fallback: admin hardcoded quando DB indisponível ──────────────────
+      const adminEmail = process.env.ADMIN_EMAIL    ?? "gonzaga.cntts@gmail.com";
+      const adminPass  = process.env.ADMIN_PASSWORD ?? "1234";
 
-      if (!user?.passwordHash) throw new Error("Email ou senha incorretos");
+      if (!db || !(await db.select({ id: users.id }).from(users).limit(1).then(() => true).catch(() => false))) {
+        if (input.email === adminEmail && input.password === adminPass) {
+          authUser = { id: 0, email: adminEmail, name: "Matheus Gonzaga", role: "admin" };
+        } else {
+          throw new Error("Email ou senha incorretos");
+        }
+      } else {
+        // ── Autenticação via banco ─────────────────────────────────────────
+        const rows = await db.select().from(users).where(eq(users.email, input.email)).limit(1);
+        const user = rows[0];
 
-      const valid = await bcrypt.compare(input.password, user.passwordHash);
-      if (!valid) throw new Error("Email ou senha incorretos");
+        if (!user?.passwordHash) throw new Error("Email ou senha incorretos");
+        const valid = await bcrypt.compare(input.password, user.passwordHash);
+        if (!valid) throw new Error("Email ou senha incorretos");
+        if (user.status === "inactive") throw new Error("Usuário inativo. Contate o administrador.");
 
-      if (user.status === "inactive") throw new Error("Usuário inativo. Contate o administrador.");
+        await db.update(users)
+          .set({ lastSignedIn: new Date(), updatedAt: new Date() })
+          .where(eq(users.id, user.id)).catch(() => {});
 
-      await db.update(users)
-        .set({ lastSignedIn: new Date(), updatedAt: new Date() })
-        .where(eq(users.id, user.id));
+        authUser = { id: user.id, email: user.email ?? "", name: user.name ?? "", role: user.role };
+      }
 
-      const token = signToken({ id: user.id, email: user.email, name: user.name, role: user.role });
+      if (!authUser) throw new Error("Email ou senha incorretos");
+
+      const token = signToken(authUser);
       const opts  = getSessionCookieOptions(ctx.req);
       ctx.res.cookie(LOCAL_COOKIE, token, { ...opts, maxAge: 7 * 24 * 60 * 60 * 1000 });
 
-      return { success: true, user: { id: user.id, email: user.email, name: user.name, role: user.role } };
+      return { success: true, user: authUser };
     }),
 
   me: publicProcedure.query(({ ctx }) => {
