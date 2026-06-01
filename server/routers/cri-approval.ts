@@ -86,6 +86,7 @@ async function getMainISINs(): Promise<Set<string>> {
 // ─── Purga: remove pendentes que migraram para os 2187 ───────────────────────
 
 async function purgeDuplicatesFromPending() {
+  if (!db) return [];
   const mainISINs  = await getMainISINs();
   const approvedRows = await db.select({ isin: approvedCRIs.isin }).from(approvedCRIs);
   const approvedSet  = new Set(approvedRows.map(r => r.isin));
@@ -108,6 +109,7 @@ async function purgeDuplicatesFromPending() {
 // ─── Scan CVM para novos candidatos ──────────────────────────────────────────
 
 async function scanNewCandidates(limit = 30): Promise<typeof pendingCRIs.$inferSelect[]> {
+  if (!db) return [];
   const s       = await getCVMStore();
   const today   = new Date().toISOString().slice(0, 10);
 

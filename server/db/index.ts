@@ -5,16 +5,18 @@ import * as schema from "../../drizzle/schema";
 const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
-  throw new Error("[DB] DATABASE_URL não configurado no .env");
+  console.warn("[DB] DATABASE_URL não configurado — banco de dados desativado");
 }
 
-const client = postgres(connectionString, {
-  max: 10,
-  idle_timeout: 30,
-  connect_timeout: 10,
-  ssl: { rejectUnauthorized: false },
-});
+const client = connectionString
+  ? postgres(connectionString, {
+      max: 5,
+      idle_timeout: 20,
+      connect_timeout: 15,
+      ssl: { rejectUnauthorized: false },
+    })
+  : null;
 
-export const db = drizzle(client, { schema });
+export const db = client ? drizzle(client, { schema }) : null as unknown as ReturnType<typeof drizzle<typeof schema>>;
 
 export * from "../../drizzle/schema";

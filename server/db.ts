@@ -7,6 +7,7 @@ export type { InsertUser };
 
 export async function upsertUser(user: InsertUser): Promise<void> {
   if (!user.openId) throw new Error("User openId is required");
+  if (!db) { console.warn("[DB] upsertUser ignorado — DB não configurado"); return; }
   try {
     await db
       .insert(users)
@@ -30,17 +31,13 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       });
   } catch (error) {
     console.error("[DB] upsertUser falhou:", error);
-    throw error;
   }
 }
 
 export async function getUserByOpenId(openId: string) {
+  if (!db) return undefined;
   try {
-    const result = await db
-      .select()
-      .from(users)
-      .where(eq(users.openId, openId))
-      .limit(1);
+    const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
     return result[0] ?? undefined;
   } catch (error) {
     console.error("[DB] getUserByOpenId falhou:", error);
