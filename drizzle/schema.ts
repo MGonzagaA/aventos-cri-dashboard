@@ -12,13 +12,17 @@ export const riskLevelEnum    = pgEnum("risk_level",    ["low", "medium", "high"
 
 // ─── Users (auth) ─────────────────────────────────────────────────────────────
 
+export const userStatusEnum = pgEnum("user_status", ["active", "inactive", "pending"]);
+
 export const users = pgTable("users", {
   id:           serial("id").primaryKey(),
   openId:       varchar("open_id",       { length: 64  }).notNull().unique(),
   name:         text("name"),
   email:        varchar("email",         { length: 320 }),
+  passwordHash: text("password_hash"),
   loginMethod:  varchar("login_method",  { length: 64  }),
   role:         roleEnum("role").default("user").notNull(),
+  status:       userStatusEnum("status").default("active").notNull(),
   createdAt:    timestamp("created_at").defaultNow().notNull(),
   updatedAt:    timestamp("updated_at").defaultNow().notNull(),
   lastSignedIn: timestamp("last_signed_in").defaultNow().notNull(),

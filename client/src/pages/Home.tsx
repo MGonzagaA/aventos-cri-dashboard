@@ -12,6 +12,8 @@ import {
   X, Calculator, Link2, FileCheck, ChevronDown, ChevronUp, DollarSign, Percent, Loader2, MessageCircle, Linkedin, RefreshCw
 } from 'lucide-react';
 import { useCRIData, CRIData, IndicatorData, NewsItem } from '@/hooks/useCRIData';
+import { AdminPanel } from '@/components/AdminPanel';
+import { trpc } from '@/lib/trpc';
 import { criDocuments as criDocumentsData, criCentroOeste as criCentroOesteData, criHighYield as criHighYieldData } from '@/data/criData';
 import {
   PieChart as RechartsPie, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid,
@@ -130,11 +132,14 @@ export default function Home() {
   // The userAuth hooks provides authentication state
   // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
   let { user, loading: authLoading, error: authError, isAuthenticated, logout } = useAuth();
+  const { data: localUser } = trpc.authLocal.me.useQuery(undefined, { staleTime: 5 * 60 * 1000 });
+  const logoutLocal = trpc.authLocal.logout.useMutation({ onSuccess: () => { window.location.href = '/'; } });
+  const isAdmin = localUser?.role === 'admin';
 
   const { cris: criFromDB, indicators: indicatorsFromDB, news: newsFromDB, loading, error, refetchNews, isFetchingNews } = useCRIData();
   const brasiliaTime = useBrasiliaTime();
   
-  const [mainView, setMainView] = useState<'dashboard' | 'reports' | 'market' | 'linkedin'>('dashboard');
+  const [mainView, setMainView] = useState<'dashboard' | 'reports' | 'market' | 'linkedin' | 'admin'>('dashboard');
   const [activeTab, setActiveTab] = useState<'portfolio' | 'high-yield'>('portfolio');
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [selectedSecuritizer, setSelectedSecuritizer] = useState<string | null>(null);
@@ -788,21 +793,28 @@ export default function Home() {
             <div className="flex items-center gap-2">
               {[
                 { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
-                { id: 'reports', label: 'Relatórios', icon: FileText },
-                { id: 'market', label: 'Mercado', icon: TrendingUp },
-                { id: 'linkedin', label: 'LinkedIn', icon: Linkedin }
+                { id: 'reports',   label: 'Relatórios', icon: FileText },
+                { id: 'market',    label: 'Mercado',    icon: TrendingUp },
+                { id: 'linkedin',  label: 'LinkedIn',   icon: Linkedin },
+                ...(isAdmin ? [{ id: 'admin', label: 'Admin', icon: Shield }] : []),
               ].map(tab => (
                 <button
                   key={tab.id}
-                  onClick={() => setMainView(tab.id as 'dashboard' | 'reports' | 'market' | 'linkedin')}
+                  onClick={() => setMainView(tab.id as any)}
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${mainView === tab.id ? 'bg-[#16A085] text-white' : 'text-[#C4E9F9]/60 hover:text-white hover:bg-white/8'}`}
                 >
                   <tab.icon className="w-3.5 h-3.5" /><span className="hidden md:inline">{tab.label}</span>
                 </button>
               ))}
+              {localUser && (
+                <span className="hidden md:block text-[10px] px-2" style={{ color: 'rgba(196,233,249,0.35)', fontFamily: "'Poppins', sans-serif" }}>
+                  {localUser.name?.split(' ')[0]}
+                </span>
+              )}
               <div className="w-px h-5 bg-white/10 mx-1" />
               <button
-                onClick={() => { localStorage.removeItem('aventos-auth'); window.location.href = '/'; }}
+                onClick={() => logoutLocal.mutate()}
+                disabled={logoutLocal.isPending}
                 className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all text-[#C4E9F9]/40 hover:text-red-400 hover:bg-red-500/10"
                 title="Sair"
               >
@@ -1300,6 +1312,9 @@ export default function Home() {
           <div className="space-y-8 aventos-fadein">
             <LinkedInContacts />
           </div>
+        )}
+        {mainView === 'admin' && isAdmin && (
+          <AdminPanel />
         )}
       </main>
 
