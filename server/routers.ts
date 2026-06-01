@@ -17,6 +17,8 @@ import { smartReportsProcedure } from "./routers/smart-reports";
 import { refinancingOpportunitiesRouter } from "./routers/refinancing-opportunities";
 import { refinancingAnalysisRouter } from "./routers/refinancing-analysis";
 import { criDetailRouter } from "./routers/cri-detail";
+import { linkedinContactsRouter } from "./routers/linkedin-contacts";
+import { criApprovalRouter } from "./routers/cri-approval";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -44,6 +46,8 @@ export const appRouter = router({
   refinancing: refinancingOpportunitiesRouter,
   refinancingAnalysis: refinancingAnalysisRouter,
   cri: router({ get: criDetailRouter.get }),
+  linkedin: linkedinContactsRouter,
+  criApproval: criApprovalRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

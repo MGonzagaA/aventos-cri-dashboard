@@ -120,9 +120,7 @@ export const criDetailRouter = {
       return {
         found: true,
         isin,
-        anbimaUrl: caracteristicas.codigo_cetip
-          ? `https://data.anbima.com.br/certificado-de-recebiveis/${caracteristicas.codigo_cetip}`
-          : null,
+        anbimaUrl: `https://data.anbima.com.br/busca/certificado-de-recebiveis?q=${encodeURIComponent(isin)}&view=caracteristicas`,
         caracteristicas,
         documentos,
         precos,

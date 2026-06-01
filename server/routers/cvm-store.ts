@@ -101,18 +101,27 @@ function latestByISIN(
 
 // ─── Load ────────────────────────────────────────────────────────────────────
 
+async function fetchZip(year: number): Promise<Response> {
+  const url = `https://dados.cvm.gov.br/dados/SECURIT/DOC/INF_MENSAL_CRI/DADOS/inf_mensal_cri_${year}.zip`;
+  return fetch(url, { headers: { "User-Agent": "Mozilla/5.0" }, signal: AbortSignal.timeout(90_000) });
+}
+
 async function loadStore(): Promise<CVMStore> {
   const year = new Date().getFullYear();
-  const zipUrl  = `https://dados.cvm.gov.br/dados/SECURIT/DOC/INF_MENSAL_CRI/DADOS/inf_mensal_cri_${year}.zip`;
   const dfinUrl = `https://dados.cvm.gov.br/dados/SECURIT/DOC/DFIN_CRI/DADOS/dfin_cri_${year - 1}.csv`;
 
   console.log("[CVM Store] Baixando ZIP e DFIN...");
-  const [zipResp, dfinResp] = await Promise.all([
-    fetch(zipUrl,  { headers: { "User-Agent": "Mozilla/5.0" }, signal: AbortSignal.timeout(90_000) }),
+
+  let zipResp = await fetchZip(year);
+  if (!zipResp.ok) {
+    console.warn(`[CVM Store] ZIP ${year} retornou ${zipResp.status}, tentando ${year - 1}...`);
+    zipResp = await fetchZip(year - 1);
+  }
+  if (!zipResp.ok) throw new Error(`CVM ZIP indisponível (${year} e ${year - 1})`);
+
+  const [dfinResp] = await Promise.all([
     fetch(dfinUrl, { headers: { "User-Agent": "Mozilla/5.0" }, signal: AbortSignal.timeout(30_000) }),
   ]);
-
-  if (!zipResp.ok) throw new Error(`CVM ZIP HTTP ${zipResp.status}`);
   const zipBuf = Buffer.from(await zipResp.arrayBuffer());
   const entries = parseZipEntries(zipBuf);
 

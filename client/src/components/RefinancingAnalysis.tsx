@@ -1,48 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { trpc } from '@/lib/trpc';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Download, RefreshCw, TrendingUp, Check, X } from 'lucide-react';
-import { Streamdown } from 'streamdown';
+import { Download, RefreshCw, TrendingUp, X, ExternalLink } from 'lucide-react';
+
+function ScoreBar({ score }: { score: number }) {
+  const color = score >= 75 ? 'bg-green-500' : score >= 60 ? 'bg-yellow-500' : 'bg-orange-500';
+  return (
+    <div className="flex items-center gap-2">
+      <div className="w-16 bg-white/10 rounded-full h-1.5">
+        <div className={`h-1.5 rounded-full ${color}`} style={{ width: `${score}%` }} />
+      </div>
+      <span className="text-xs font-bold text-white">{score}</span>
+    </div>
+  );
+}
 
 export default function RefinancingAnalysis() {
-  const [expandedAnalysis, setExpandedAnalysis] = useState(false);
-  const [selectedOpportunity, setSelectedOpportunity] = useState<any>(null);
+  const [selectedOpp, setSelectedOpp] = useState<any>(null);
 
-  // Buscar oportunidades com Gemini
-  const { data: searchData, isLoading: isSearching, refetch: refetchSearch } = trpc.refinancingAnalysis.search.useQuery();
-  
-  // Listar oportunidades persistidas
-  const { data: listData, refetch: refetchList } = trpc.refinancingAnalysis.list.useQuery();
-
-  // Mutations para aceitar/rejeitar
-  const { mutate: acceptOpportunity } = trpc.refinancingAnalysis.accept.useMutation({
-    onSuccess: () => {
-      refetchList();
-    },
+  const { data, isLoading, refetch, isFetching } = trpc.refinancingAnalysis.search.useQuery(undefined, {
+    staleTime: 30 * 60 * 1000,
   });
-
-  const { mutate: rejectOpportunity } = trpc.refinancingAnalysis.reject.useMutation({
-    onSuccess: () => {
-      refetchList();
-    },
-  });
-
-  // Auto-refresh a cada 2 minutos
-  useEffect(() => {
-    const interval = setInterval(() => {
-      refetchSearch();
-      refetchList();
-    }, 2 * 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, [refetchSearch, refetchList]);
 
   const handleExport = () => {
-    if (!searchData?.oportunidades) return;
-
-    const jsonStr = JSON.stringify(searchData.oportunidades, null, 2);
-    const blob = new Blob([jsonStr], { type: 'application/json' });
+    if (!data?.oportunidades?.length) return;
+    const blob = new Blob([JSON.stringify(data.oportunidades, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -51,248 +32,180 @@ export default function RefinancingAnalysis() {
     URL.revokeObjectURL(url);
   };
 
-  const handleAccept = (opportunity: any) => {
-    acceptOpportunity({ id: opportunity.id });
-  };
+  const opps = data?.oportunidades ?? [];
 
-  const handleReject = (opportunity: any) => {
-    rejectOpportunity({ id: opportunity.id });
-  };
-
-  // Usar dados do banco se disponível, caso contrário usar dados da busca
-  const displayOportunidades = listData?.success && listData.oportunidades?.length > 0 
-    ? listData.oportunidades 
-    : searchData?.oportunidades || [];
-
-  if (isSearching && !displayOportunidades.length) {
+  if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <div className="animate-spin">
-          <RefreshCw className="w-6 h-6 text-teal-500" />
-        </div>
-        <span className="ml-2 text-gray-400">Analisando oportunidades com Gemini...</span>
+      <div className="flex items-center justify-center p-12">
+        <RefreshCw className="w-6 h-6 text-teal-400 animate-spin mr-3" />
+        <span className="text-[#C4E9F9]/60 text-sm">Carregando CRIs da base CVM...</span>
       </div>
-    );
-  }
-
-  if (!searchData?.success && !listData?.success) {
-    return (
-      <Card className="p-6 border-red-500/30 bg-red-500/10">
-        <p className="text-red-400">Erro ao analisar oportunidades de refinanciamento</p>
-      </Card>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-            <TrendingUp className="w-6 h-6 text-teal-500" />
+          <h2 className="text-xl font-bold text-white flex items-center gap-2" style={{ fontFamily: "'Poppins', sans-serif" }}>
+            <TrendingUp className="w-5 h-5 text-teal-400" />
             Análise de Refinanciamento
           </h2>
-          <p className="text-gray-400 text-sm mt-1">
-            CRIs próximos ao vencimento (12-24 meses) com análise inteligente via Gemini
-          </p>
+          <p className="text-xs text-[#C4E9F9]/40 mt-0.5">CRIs vencendo em 12–24 meses · base CVM</p>
         </div>
         <div className="flex gap-2">
-          <Button
-            onClick={() => refetchSearch()}
-            variant="outline"
-            size="sm"
-            className="gap-2"
-            disabled={isSearching}
+          <button
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-[#C4E9F9]/60 hover:bg-white/10 hover:text-white transition-all"
           >
-            <RefreshCw className={`w-4 h-4 ${isSearching ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${isFetching ? 'animate-spin' : ''}`} />
             Atualizar
-          </Button>
-          <Button
+          </button>
+          <button
             onClick={handleExport}
-            size="sm"
-            className="gap-2 bg-teal-600 hover:bg-teal-700"
-            disabled={!displayOportunidades.length}
+            disabled={!opps.length}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#16A085]/20 border border-[#16A085]/30 text-[#16A085] hover:bg-[#16A085]/30 transition-all disabled:opacity-40"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-3.5 h-3.5" />
             Exportar JSON
-          </Button>
+          </button>
         </div>
       </div>
 
-      {/* Estatísticas */}
+      {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <Card className="p-4 bg-blue-500/10 border-blue-500/30">
-          <div className="text-gray-400 text-sm">Total de CRIs</div>
-          <div className="text-2xl font-bold text-blue-400">{searchData?.totalCRIs || 0}</div>
-        </Card>
-        <Card className="p-4 bg-teal-500/10 border-teal-500/30">
-          <div className="text-gray-400 text-sm">Oportunidades</div>
-          <div className="text-2xl font-bold text-teal-400">{displayOportunidades.length}</div>
-        </Card>
-        <Card className="p-4 bg-amber-500/10 border-amber-500/30">
-          <div className="text-gray-400 text-sm">Taxa de Cobertura</div>
-          <div className="text-2xl font-bold text-amber-400">
-            {searchData?.totalCRIs ? (((displayOportunidades.length) / (searchData.totalCRIs || 1)) * 100).toFixed(1) : '0'}%
-          </div>
-        </Card>
+        <div className="aventos-card p-4">
+          <p className="text-xs text-[#C4E9F9]/40 mb-1">Total CRIs CVM</p>
+          <p className="text-2xl font-bold text-[#3691ED]">{(data?.totalCRIs ?? 0).toLocaleString('pt-BR')}</p>
+        </div>
+        <div className="aventos-card p-4">
+          <p className="text-xs text-[#C4E9F9]/40 mb-1">Vencendo 12–24 meses</p>
+          <p className="text-2xl font-bold text-[#16A085]">{data?.oportunidadesEncontradas ?? 0}</p>
+        </div>
+        <div className="aventos-card p-4">
+          <p className="text-xs text-[#C4E9F9]/40 mb-1">Taxa de Cobertura</p>
+          <p className="text-2xl font-bold text-amber-400">
+            {data?.totalCRIs ? (((data.oportunidadesEncontradas ?? 0) / data.totalCRIs) * 100).toFixed(1) : '0'}%
+          </p>
+        </div>
       </div>
 
-      {/* Tabela de Oportunidades */}
-      <Card className="overflow-hidden border-gray-700">
+      {/* Tabela */}
+      <div className="aventos-card overflow-hidden p-0">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-gray-800 border-b border-gray-700">
-              <tr>
-                <th className="px-4 py-3 text-left text-gray-300 font-semibold">Ticker</th>
-                <th className="px-4 py-3 text-left text-gray-300 font-semibold">Devedor</th>
-                <th className="px-4 py-3 text-left text-gray-300 font-semibold">Vencimento</th>
-                <th className="px-4 py-3 text-left text-gray-300 font-semibold">Taxa</th>
-                <th className="px-4 py-3 text-left text-gray-300 font-semibold">Volume</th>
-                <th className="px-4 py-3 text-left text-gray-300 font-semibold">Score</th>
-                <th className="px-4 py-3 text-left text-gray-300 font-semibold">Análise Gemini</th>
-                <th className="px-4 py-3 text-center text-gray-300 font-semibold">Ações</th>
+            <thead>
+              <tr className="border-b border-white/10 bg-white/5">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#C4E9F9]/50 uppercase tracking-wider">Código</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#C4E9F9]/50 uppercase tracking-wider">Devedor</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#C4E9F9]/50 uppercase tracking-wider">Securitizadora</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#C4E9F9]/50 uppercase tracking-wider">Vencimento</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#C4E9F9]/50 uppercase tracking-wider">Taxa</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#C4E9F9]/50 uppercase tracking-wider">Volume</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#C4E9F9]/50 uppercase tracking-wider">Score</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-[#C4E9F9]/50 uppercase tracking-wider">Prioridade</th>
               </tr>
             </thead>
             <tbody>
-              {displayOportunidades.slice(0, 15).map((oportunidade: any, idx: number) => {
-                // Determinar se é do banco ou da busca
-                const isFromDB = oportunidade.id !== undefined;
-                const ticker = isFromDB ? oportunidade.criName : oportunidade.ticker;
-                const devedor = isFromDB ? oportunidade.debtor : oportunidade.devedor;
-                const vencimento = isFromDB ? oportunidade.maturityDate : oportunidade.dataVencimento;
-                const taxa = isFromDB ? oportunidade.rate : oportunidade.taxa;
-                const volume = isFromDB ? 50_000_000 : oportunidade.volume;
-                const score = isFromDB ? 50 : oportunidade.scoreRefinanciamento;
-                const analise = isFromDB ? oportunidade.geminiAnalysis : oportunidade.analiseGemini;
-
-                return (
-                  <tr
-                    key={idx}
-                    className="border-b border-gray-700 hover:bg-gray-800/50 transition cursor-pointer"
-                    onClick={() => setSelectedOpportunity(oportunidade)}
-                  >
-                    <td className="px-4 py-3 font-mono text-teal-400">{ticker}</td>
-                    <td className="px-4 py-3 text-gray-300">{devedor}</td>
-                    <td className="px-4 py-3 text-gray-300">{vencimento}</td>
-                    <td className="px-4 py-3 text-gray-300">{taxa}</td>
-                    <td className="px-4 py-3 text-gray-300">
-                      R$ {(volume / 1_000_000).toFixed(0)}M
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-12 bg-gray-700 rounded-full h-2">
-                          <div
-                            className={`h-2 rounded-full transition ${
-                              score >= 75
-                                ? 'bg-green-500'
-                                : score >= 60
-                                ? 'bg-yellow-500'
-                                : 'bg-orange-500'
-                            }`}
-                            style={{
-                              width: `${Math.min(score, 100)}%`,
-                            }}
-                          />
-                        </div>
-                        <span className="text-sm font-semibold text-white">
-                          {score}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-xs text-gray-400 max-w-xs truncate">
-                      {analise ? analise.substring(0, 50) + '...' : 'N/A'}
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      {isFromDB && oportunidade.status === 'pending' ? (
-                        <div className="flex gap-2 justify-center">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleAccept(oportunidade);
-                            }}
-                            className="p-1 hover:bg-green-500/20 rounded transition"
-                            title="Aceitar"
-                          >
-                            <Check className="w-4 h-4 text-green-400" />
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleReject(oportunidade);
-                            }}
-                            className="p-1 hover:bg-red-500/20 rounded transition"
-                            title="Rejeitar"
-                          >
-                            <X className="w-4 h-4 text-red-400" />
-                          </button>
-                        </div>
-                      ) : (
-                        <span className="text-xs text-gray-500">
-                          {isFromDB ? oportunidade.status : 'Novo'}
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
+              {opps.slice(0, 20).map((opp: any, idx: number) => (
+                <tr
+                  key={idx}
+                  className="border-b border-white/5 hover:bg-white/5 transition-colors cursor-pointer"
+                  onClick={() => setSelectedOpp(opp)}
+                >
+                  <td className="px-4 py-3 font-mono text-xs text-[#3691ED]">{opp.ticker}</td>
+                  <td className="px-4 py-3 text-sm font-medium text-white max-w-[200px] truncate">{opp.devedor}</td>
+                  <td className="px-4 py-3 text-xs text-[#C4E9F9]/60 truncate">{opp.securitizadora?.split(' ')[0]}</td>
+                  <td className="px-4 py-3 text-xs text-[#C4E9F9]/80 whitespace-nowrap">{opp.dataVencimento}</td>
+                  <td className="px-4 py-3 text-xs font-semibold text-[#16A085]">{opp.taxa}</td>
+                  <td className="px-4 py-3 text-xs text-[#C4E9F9]/70">
+                    {opp.volume > 0
+                      ? `R$ ${(opp.volume / 1_000_000).toFixed(1)}M`
+                      : '—'}
+                  </td>
+                  <td className="px-4 py-3"><ScoreBar score={opp.scoreRefinanciamento} /></td>
+                  <td className="px-4 py-3">
+                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                      opp.recomendacao.includes('Alta') ? 'bg-green-500/15 text-green-400' :
+                      opp.recomendacao.includes('Média') ? 'bg-yellow-500/15 text-yellow-400' :
+                      'bg-white/5 text-[#C4E9F9]/40'
+                    }`}>
+                      {opp.recomendacao}
+                    </span>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
+          {opps.length > 20 && (
+            <p className="text-xs text-[#C4E9F9]/30 text-center py-3">
+              Exibindo 20 de {opps.length} oportunidades · Exporte JSON para visualizar todos
+            </p>
+          )}
         </div>
-      </Card>
+      </div>
 
-      {/* Modal de Detalhes */}
-      {selectedOpportunity && (
+      {/* Rodapé */}
+      {data?.dataAnalise && (
+        <p className="text-xs text-[#C4E9F9]/30 text-center">
+          Análise em {new Date(data.dataAnalise).toLocaleString('pt-BR')} · Cache 30 min
+        </p>
+      )}
+
+      {/* Modal */}
+      {selectedOpp && (
         <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-          onClick={() => setSelectedOpportunity(null)}
+          className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+          onClick={() => setSelectedOpp(null)}
         >
-          <Card className="max-w-2xl w-full bg-gray-900 border-gray-700 p-6">
-            <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-bold text-white">
-                {selectedOpportunity.ticker || selectedOpportunity.criName}
-              </h3>
-              <button
-                onClick={() => setSelectedOpportunity(null)}
-                className="text-gray-400 hover:text-white"
-              >
+          <div
+            className="aventos-card max-w-lg w-full p-6 space-y-4"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-start">
+              <div>
+                <h3 className="text-lg font-bold text-white">{selectedOpp.ticker}</h3>
+                <p className="text-xs text-[#C4E9F9]/40">{selectedOpp.isin}</p>
+              </div>
+              <button onClick={() => setSelectedOpp(null)} className="text-[#C4E9F9]/30 hover:text-white transition">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="space-y-3 mb-6">
-              <div>
-                <span className="text-gray-400 text-sm">Devedor:</span>
-                <p className="text-white">{selectedOpportunity.devedor || selectedOpportunity.debtor}</p>
-              </div>
-              <div>
-                <span className="text-gray-400 text-sm">Vencimento:</span>
-                <p className="text-white">{selectedOpportunity.dataVencimento || selectedOpportunity.maturityDate}</p>
-              </div>
-              <div>
-                <span className="text-gray-400 text-sm">Taxa:</span>
-                <p className="text-white">{selectedOpportunity.taxa || selectedOpportunity.rate}</p>
-              </div>
-              <div>
-                <span className="text-gray-400 text-sm">Análise Gemini:</span>
-                <div className="text-gray-300 prose prose-invert max-w-none mt-2">
-                  <Streamdown>{selectedOpportunity.analiseGemini || selectedOpportunity.geminiAnalysis || 'N/A'}</Streamdown>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                ['Devedor', selectedOpp.devedor],
+                ['Securitizadora', selectedOpp.securitizadora],
+                ['Vencimento', selectedOpp.dataVencimento],
+                ['Dias restantes', `${selectedOpp.diasParaVencimento} dias`],
+                ['Taxa', selectedOpp.taxa],
+                ['Volume', selectedOpp.volume > 0 ? `R$ ${(selectedOpp.volume / 1_000_000).toFixed(2)}M` : '—'],
+                ['Score', selectedOpp.scoreRefinanciamento],
+                ['Prioridade', selectedOpp.recomendacao],
+              ].map(([label, value]) => (
+                <div key={label as string} className="bg-white/5 rounded-lg p-3">
+                  <p className="text-xs text-[#C4E9F9]/40 mb-0.5">{label}</p>
+                  <p className="text-sm font-medium text-white">{value}</p>
                 </div>
-              </div>
+              ))}
             </div>
 
-            <div className="flex gap-2 justify-end">
-              <Button variant="outline" onClick={() => setSelectedOpportunity(null)}>
-                Fechar
-              </Button>
-            </div>
-          </Card>
+            {selectedOpp.isin && (
+              <a
+                href={`https://data.anbima.com.br/busca/certificado-de-recebiveis?q=${encodeURIComponent(selectedOpp.isin)}&view=caracteristicas`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2 text-xs text-[#3691ED] hover:text-[#16A085] transition"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                Abrir no ANBIMA
+              </a>
+            )}
+          </div>
         </div>
       )}
-
-      {/* Footer */}
-      <div className="text-xs text-gray-500 text-center">
-        Análise realizada em {searchData?.dataAnalise ? new Date(searchData.dataAnalise).toLocaleString('pt-BR') : 'N/A'}
-      </div>
     </div>
   );
 }

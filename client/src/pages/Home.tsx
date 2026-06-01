@@ -1,14 +1,15 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useAuth } from '@/_core/hooks/useAuth';
 import { GeminiChat } from '@/components/GeminiChat';
 import { OpportunitiesAlert } from '@/components/OpportunitiesAlert';
 import RefinancingAnalysis from '@/components/RefinancingAnalysis';
+import LinkedInContacts from '@/components/LinkedInContacts';
 import { CRIDetailModal } from '@/components/CRIDetailModal';
-import { 
+import {
   Download, Calendar, Code2, TrendingUp, Filter, ExternalLink, MapPin, AlertTriangle,
   Search, Info, FileText, BarChart3, PieChart, ArrowUpRight, ArrowDownRight,
   Building2, Shield, Briefcase, Bell, Newspaper, Clock, AlertCircle, ChevronRight,
-  X, Calculator, Link2, FileCheck, ChevronDown, ChevronUp, DollarSign, Percent, Loader2, MessageCircle
+  X, Calculator, Link2, FileCheck, ChevronDown, ChevronUp, DollarSign, Percent, Loader2, MessageCircle, Linkedin, RefreshCw
 } from 'lucide-react';
 import { useCRIData, CRIData, IndicatorData, NewsItem } from '@/hooks/useCRIData';
 import { criDocuments as criDocumentsData, criCentroOeste as criCentroOesteData, criHighYield as criHighYieldData } from '@/data/criData';
@@ -16,6 +17,24 @@ import {
   PieChart as RechartsPie, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Legend
 } from 'recharts';
+
+// --- RELÓGIO BRASÍLIA ---
+function useBrasiliaTime() {
+  const getBST = () => {
+    const now = new Date();
+    return {
+      time: now.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+      date: now.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo', weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' }),
+      dateShort: now.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
+    };
+  };
+  const [bst, setBst] = useState(getBST);
+  useEffect(() => {
+    const id = setInterval(() => setBst(getBST()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  return bst;
+}
 
 // --- DADOS ESTÁTICOS (FALLBACKS) ---
 const securitizers = [
@@ -30,7 +49,7 @@ const securitizerDocLinks: Record<string, { portal: string; documents: string; l
   '1': { portal: 'https://opea.com.br/pt/', documents: 'https://app.opea.com.br/pt/emissoes', label: 'OPEA - Portal de Emissões' },
   '2': { portal: 'https://virgo.inc/', documents: 'https://virgo.inc/investidores/', label: 'Virgo - Investidores' },
   '3': { portal: 'https://fortesec.com.br/', documents: 'https://fortesec.com.br/relacao-investidor/', label: 'Fortesec - Relação com Investidores' },
-  '4': { portal: 'https://www.truesecuritizadora.com.br/', documents: 'https://data.anbima.com.br/certificado-de-recebiveis', label: 'True - ANBIMA Data (Documentos)' },
+  '4': { portal: 'https://www.truesecuritizadora.com.br/', documents: 'https://data.anbima.com.br/busca/certificado-de-recebiveis?view=caracteristicas', label: 'True - ANBIMA Data (Documentos)' },
   '5': { portal: 'https://habitasec.com.br/', documents: 'https://www.vortx.com.br/investidor/dcm', label: 'Habitasec - Vórtx (Documentos)' }
 };
 
@@ -112,12 +131,14 @@ export default function Home() {
   // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
   let { user, loading: authLoading, error: authError, isAuthenticated, logout } = useAuth();
 
-  const { cris: criFromDB, indicators: indicatorsFromDB, news: newsFromDB, loading, error } = useCRIData();
+  const { cris: criFromDB, indicators: indicatorsFromDB, news: newsFromDB, loading, error, refetchNews, isFetchingNews } = useCRIData();
+  const brasiliaTime = useBrasiliaTime();
   
-  const [mainView, setMainView] = useState<'dashboard' | 'reports' | 'market'>('dashboard');
-  const [activeTab, setActiveTab] = useState<'portfolio' | 'centro-oeste' | 'high-yield'>('portfolio');
+  const [mainView, setMainView] = useState<'dashboard' | 'reports' | 'market' | 'linkedin'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'portfolio' | 'high-yield'>('portfolio');
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [selectedSecuritizer, setSelectedSecuritizer] = useState<string | null>(null);
+  const [selectedIndexer, setSelectedIndexer] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const PAGE_SIZE = 10;
@@ -128,6 +149,8 @@ export default function Home() {
   const [simNewIndexer, setSimNewIndexer] = useState('CDI');
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [detailCRI, setDetailCRI] = useState<CRIData | null>(null);
+  const [selectedRegiao, setSelectedRegiao] = useState<string | null>(null);
+  const [selectedUF, setSelectedUF] = useState<string | null>(null);
 
   // --- INTEGRAÇÃO DE DADOS ---
   const allCRIsData: CRIData[] = useMemo(() => {
@@ -164,9 +187,10 @@ export default function Home() {
     });
   }, [newsFromDB]);
 
+  useEffect(() => { setCurrentPage(1); }, [activeTab, selectedYear, selectedSecuritizer, selectedIndexer, selectedRegiao, selectedUF, searchTerm]);
+
   // --- LÓGICA DE FILTRAGEM ---
   const filteredDocuments = useMemo(() => {
-    setCurrentPage(1); // reset page whenever filters change
     let filtered = allCRIsData;
 
     const mapTabToCarteira = {
@@ -178,6 +202,9 @@ export default function Home() {
 
     if (selectedYear) filtered = filtered.filter(doc => getMaturityYear(doc.maturityDate) === selectedYear);
     if (selectedSecuritizer) filtered = filtered.filter(doc => doc.securitizer === selectedSecuritizer);
+    if (selectedIndexer) filtered = filtered.filter(doc => getIndexerFromRate(doc.rate) === selectedIndexer);
+    if (selectedRegiao) filtered = filtered.filter(doc => doc.regiao === selectedRegiao);
+    if (selectedUF) filtered = filtered.filter(doc => doc.estado === selectedUF);
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       filtered = filtered.filter(doc =>
@@ -187,16 +214,23 @@ export default function Home() {
       );
     }
     return sortCRIsByDate(filtered);
-  }, [allCRIsData, activeTab, selectedYear, selectedSecuritizer, searchTerm]);
+  }, [allCRIsData, activeTab, selectedYear, selectedSecuritizer, selectedIndexer, selectedRegiao, selectedUF, searchTerm]);
 
   const totalPages = Math.ceil(filteredDocuments.length / PAGE_SIZE);
   const pagedDocuments = filteredDocuments.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
-  const years = [2026, 2027, 2028];
+  const years = useMemo(() => {
+    const set = new Set<number>();
+    allCRIsData.forEach(c => {
+      const y = getMaturityYear(c.maturityDate);
+      if (y > 2000 && y < 2100) set.add(y);
+    });
+    return Array.from(set).sort((a, b) => a - b);
+  }, [allCRIsData]);
   const totalCRIsGlobal = allCRIsData.length;
   const filteredCount = filteredDocuments.length;
   const docsInCurrentTab = allCRIsData.filter(d => 
-    d.carteira === (activeTab === 'portfolio' ? 'Portfólio Principal' : activeTab === 'centro-oeste' ? 'Centro-Oeste' : 'High Yield')
+    d.carteira === (activeTab === 'portfolio' ? 'Portfólio Principal' : 'High Yield')
   ).length;
 
   // --- LÓGICA DE RELATÓRIOS ---
@@ -228,6 +262,41 @@ export default function Home() {
     allCRIsData.forEach(c => { counts[c.securitizer] = (counts[c.securitizer] || 0) + 1; });
     return Object.entries(counts).map(([name, value]) => ({ name: name.replace(' Securitizadora', ''), fullName: name, value }));
   }, [allCRIsData]);
+
+  // Securitizadoras únicas derivadas dos dados reais, ordenadas por nome
+  const securitizerOptions = useMemo(() => {
+    const tabCRIs = allCRIsData.filter(c =>
+      c.carteira === (activeTab === 'portfolio' ? 'Portfólio Principal' : 'High Yield')
+    );
+    const names = Array.from(new Set(tabCRIs.map(c => c.securitizer).filter(Boolean)));
+    return names.sort((a, b) => a.localeCompare(b, 'pt-BR')).map((name, i) => ({ id: String(i), name }));
+  }, [allCRIsData, activeTab]);
+
+  const regiaoOptions = useMemo(() => {
+    const tabCRIs = allCRIsData.filter(c =>
+      c.carteira === (activeTab === 'portfolio' ? 'Portfólio Principal' : 'High Yield')
+    );
+    const regioes = Array.from(new Set(tabCRIs.map(c => c.regiao).filter(Boolean))) as string[];
+    const ORDER = ['Sudeste', 'Centro-Oeste', 'Sul', 'Nordeste', 'Norte'];
+    return regioes.sort((a, b) => {
+      const ia = ORDER.indexOf(a); const ib = ORDER.indexOf(b);
+      if (ia !== -1 && ib !== -1) return ia - ib;
+      return a.localeCompare(b, 'pt-BR');
+    });
+  }, [allCRIsData, activeTab]);
+
+  const estadoOptions = useMemo(() => {
+    const tabCRIs = allCRIsData.filter(c =>
+      c.carteira === (activeTab === 'portfolio' ? 'Portfólio Principal' : 'High Yield')
+    );
+    const estados = Array.from(new Set(
+      tabCRIs
+        .filter(c => selectedRegiao ? c.regiao === selectedRegiao : true)
+        .map(c => c.estado)
+        .filter(Boolean)
+    )) as string[];
+    return estados.sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  }, [allCRIsData, activeTab, selectedRegiao]);
 
   const rateByPortfolio = useMemo(() => {
     const getAvg = (carteira: string) => {
@@ -404,6 +473,18 @@ export default function Home() {
                   <span className="text-xs text-[#C4E9F9]/40">Securitizadora</span>
                   <span className="text-xs font-medium text-white">{doc.securitizer}</span>
                 </div>
+                {(doc.cidade || doc.estado || doc.regiao) && (
+                  <div className="p-3 flex justify-between items-center">
+                    <span className="text-xs text-[#C4E9F9]/40">Localização</span>
+                    <div className="flex items-center gap-1.5">
+                      <MapPin className="w-3 h-3 text-amber-400" />
+                      <span className="text-xs font-medium text-white">
+                        {[doc.cidade, doc.estado].filter(Boolean).join(' · ') || doc.regiao}
+                      </span>
+                      {doc.estado && doc.regiao && <span className="text-[10px] text-[#C4E9F9]/40">({doc.regiao})</span>}
+                    </div>
+                  </div>
+                )}
                 <div className="p-3 flex justify-between items-center">
                   <span className="text-xs text-[#C4E9F9]/40">Indexador</span>
                   <span className="text-xs font-medium text-[#16A085]">{getIndexerFromRate(doc.rate)}</span>
@@ -604,7 +685,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-4">
+          <div className={`grid grid-cols-2 gap-3 mt-4 ${(doc.cidade || doc.estado || doc.regiao) ? 'lg:grid-cols-5' : 'lg:grid-cols-4'}`}>
             <div className="bg-white/5 border border-white/8 p-3 rounded-lg">
               <p className="text-[10px] text-[#C4E9F9]/40 uppercase tracking-wider font-semibold mb-1">Código</p>
               <p className="text-sm font-mono text-[#C4E9F9]/90">{doc.code}</p>
@@ -621,6 +702,22 @@ export default function Home() {
               <p className="text-[10px] text-[#C4E9F9]/40 uppercase tracking-wider font-semibold mb-1">Securitizadora</p>
               <p className="text-sm font-medium text-[#C4E9F9]/80 truncate">{doc.securitizer}</p>
             </div>
+            {(doc.cidade || doc.estado || doc.regiao) && (
+              <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg">
+                <p className="text-[10px] text-[#C4E9F9]/40 uppercase tracking-wider font-semibold mb-1">Localização</p>
+                <div className="flex items-center gap-1">
+                  <MapPin className="w-3 h-3 text-amber-400 shrink-0" />
+                  {doc.estado ? (
+                    <p className="text-sm font-medium text-amber-300 truncate">
+                      {doc.cidade ? `${doc.cidade} / ${doc.estado}` : doc.estado}
+                    </p>
+                  ) : (
+                    <p className="text-sm font-medium text-amber-300/70 truncate">{doc.regiao}</p>
+                  )}
+                </div>
+                {doc.estado && doc.regiao && <p className="text-[10px] text-[#C4E9F9]/30 mt-0.5 pl-4">{doc.regiao}</p>}
+              </div>
+            )}
           </div>
 
           {doc.lastro && (
@@ -678,21 +775,40 @@ export default function Home() {
               <img src={LOGO_URL} alt="Aventos" className="h-8 object-contain" />
               <div className="hidden sm:block h-6 w-px bg-white/15"></div>
               <span className="hidden sm:block text-xs font-medium text-[#C4E9F9]/50 uppercase tracking-widest">Portal de Refinanciamento CRI</span>
+              <div className="hidden lg:block h-6 w-px bg-white/15"></div>
+              <div className="hidden lg:flex flex-col items-start">
+                <span className="text-[11px] font-semibold text-white tabular-nums" style={{ fontFamily: "'Poppins', sans-serif", letterSpacing: '0.05em' }}>
+                  {brasiliaTime.time} <span className="text-[#16A085]">BRT</span>
+                </span>
+                <span className="text-[10px] text-[#C4E9F9]/40" style={{ fontFamily: "'Poppins', sans-serif" }}>
+                  {brasiliaTime.date.charAt(0).toUpperCase() + brasiliaTime.date.slice(1)}
+                </span>
+              </div>
             </div>
             <div className="flex items-center gap-2">
               {[
                 { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
                 { id: 'reports', label: 'Relatórios', icon: FileText },
-                { id: 'market', label: 'Mercado', icon: TrendingUp }
+                { id: 'market', label: 'Mercado', icon: TrendingUp },
+                { id: 'linkedin', label: 'LinkedIn', icon: Linkedin }
               ].map(tab => (
                 <button
                   key={tab.id}
-                  onClick={() => setMainView(tab.id as 'dashboard' | 'reports' | 'market')}
+                  onClick={() => setMainView(tab.id as 'dashboard' | 'reports' | 'market' | 'linkedin')}
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${mainView === tab.id ? 'bg-[#16A085] text-white' : 'text-[#C4E9F9]/60 hover:text-white hover:bg-white/8'}`}
                 >
                   <tab.icon className="w-3.5 h-3.5" /><span className="hidden md:inline">{tab.label}</span>
                 </button>
               ))}
+              <div className="w-px h-5 bg-white/10 mx-1" />
+              <button
+                onClick={() => { localStorage.removeItem('aventos-auth'); window.location.href = '/'; }}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all text-[#C4E9F9]/40 hover:text-red-400 hover:bg-red-500/10"
+                title="Sair"
+              >
+                <X className="w-3.5 h-3.5" />
+                <span className="hidden md:inline">Sair</span>
+              </button>
             </div>
           </div>
         </div>
@@ -711,12 +827,11 @@ export default function Home() {
             <div className="flex gap-2 flex-wrap">
               {[
                 { id: 'portfolio', label: 'Portfólio Principal', count: allCRIsData.filter(c => c.carteira === 'Portfólio Principal').length, icon: Briefcase },
-                { id: 'centro-oeste', label: 'Centro-Oeste', count: allCRIsData.filter(c => c.carteira === 'Centro-Oeste').length, icon: MapPin },
                 { id: 'high-yield', label: 'High Yield', count: allCRIsData.filter(c => c.carteira === 'High Yield').length, icon: AlertTriangle }
               ].map(tab => (
                 <button
                   key={tab.id}
-                  onClick={() => { setActiveTab(tab.id as 'portfolio' | 'centro-oeste' | 'high-yield'); setSelectedYear(null); setSelectedSecuritizer(null); setSearchTerm(''); }}
+                  onClick={() => { setActiveTab(tab.id as 'portfolio' | 'high-yield'); setSelectedYear(null); setSelectedSecuritizer(null); setSelectedIndexer(null); setSelectedRegiao(null); setSelectedUF(null); setSearchTerm(''); }}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${
                     activeTab === tab.id ? 'bg-[#16A085] text-white shadow-lg shadow-[#16A085]/20' : 'bg-white/5 border border-white/10 text-[#C4E9F9]/70 hover:bg-white/10 hover:text-white'
                   }`}
@@ -734,7 +849,7 @@ export default function Home() {
                 { label: 'Total de CRIs', value: totalCRIsGlobal, icon: Code2, color: '#3691ED' },
                 { label: 'Nesta Carteira', value: docsInCurrentTab, icon: Building2, color: '#16A085' },
                 { label: 'Após Filtros', value: filteredCount, icon: Filter, color: '#C4E9F9' },
-                { label: 'Securitizadoras', value: securitizers.length, icon: Shield, color: '#f59e0b' }
+                { label: 'Securitizadoras', value: securitizerData.length, icon: Shield, color: '#f59e0b' }
               ].map((stat, i) => (
                 <div key={i} className="aventos-card">
                   <div className="flex items-start justify-between">
@@ -757,7 +872,7 @@ export default function Home() {
                 </div>
                 <h3 className="font-semibold text-white text-sm" style={{ fontFamily: "'Poppins', sans-serif" }}>Filtros de Pesquisa</h3>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-[#C4E9F9]/50 mb-2 uppercase tracking-wider" style={{ fontFamily: "'Poppins', sans-serif" }}>Buscar</label>
                   <div className="relative">
@@ -775,8 +890,31 @@ export default function Home() {
                 <div>
                   <label className="block text-xs font-medium text-[#C4E9F9]/50 mb-2 uppercase tracking-wider" style={{ fontFamily: "'Poppins', sans-serif" }}>Securitizadora</label>
                   <select className="aventos-input" value={selectedSecuritizer || ''} onChange={(e) => setSelectedSecuritizer(e.target.value || null)}>
-                    <option value="">Todas</option>
-                    {securitizers.map(sec => <option key={sec.id} value={sec.name}>{sec.name}</option>)}
+                    <option value="">Todas ({securitizerOptions.length})</option>
+                    {securitizerOptions.map(sec => <option key={sec.id} value={sec.name}>{sec.name}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-[#C4E9F9]/50 mb-2 uppercase tracking-wider" style={{ fontFamily: "'Poppins', sans-serif" }}>Região</label>
+                  <select className="aventos-input" value={selectedRegiao || ''} onChange={(e) => { setSelectedRegiao(e.target.value || null); setSelectedUF(null); }}>
+                    <option value="">Todas ({regiaoOptions.length})</option>
+                    {regiaoOptions.map(reg => <option key={reg} value={reg}>{reg}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-[#C4E9F9]/50 mb-2 uppercase tracking-wider" style={{ fontFamily: "'Poppins', sans-serif" }}>Estado / UF</label>
+                  <select className="aventos-input" value={selectedUF || ''} onChange={(e) => setSelectedUF(e.target.value || null)}>
+                    <option value="">Todos{selectedRegiao ? ` (${estadoOptions.length})` : ''}</option>
+                    {estadoOptions.map(est => <option key={est} value={est}>{est}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-[#C4E9F9]/50 mb-2 uppercase tracking-wider" style={{ fontFamily: "'Poppins', sans-serif" }}>Indexador</label>
+                  <select className="aventos-input" value={selectedIndexer || ''} onChange={(e) => setSelectedIndexer(e.target.value || null)}>
+                    <option value="">Todos</option>
+                    <option value="IPCA">IPCA</option>
+                    <option value="CDI">CDI</option>
+                    <option value="IGP-M">IGP-M</option>
                   </select>
                 </div>
               </div>
@@ -785,9 +923,7 @@ export default function Home() {
             <div className="space-y-4">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <h2 className="aventos-heading text-xl text-white">
-                  {activeTab === 'portfolio' && 'Portfólio Principal'}
-                  {activeTab === 'centro-oeste' && 'Centro-Oeste'}
-                  {activeTab === 'high-yield' && 'High Yield'}
+                  {activeTab === 'portfolio' ? 'Portfólio Principal' : 'High Yield'}
                 </h2>
                 <p className="text-xs text-[#C4E9F9]/40 font-medium" style={{ fontFamily: "'Poppins', sans-serif" }}>
                   {filteredCount} ativos · página {currentPage}/{totalPages || 1}
@@ -795,23 +931,26 @@ export default function Home() {
               </div>
 
               {/* Pagination tabs */}
-              {totalPages > 1 && (
-                <div className="flex flex-wrap gap-1.5">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                    <button
-                      key={page}
-                      onClick={() => setCurrentPage(page)}
-                      className={`w-8 h-8 rounded-md text-xs font-bold transition-all ${
-                        page === currentPage
-                          ? 'bg-[#16A085] text-white shadow-lg shadow-teal-500/20'
-                          : 'bg-white/5 text-[#C4E9F9]/50 hover:bg-white/10 hover:text-white border border-white/10'
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  ))}
-                </div>
-              )}
+              {totalPages > 1 && (() => {
+                const win = 5;
+                let start = Math.max(1, currentPage - Math.floor(win / 2));
+                let end = Math.min(totalPages, start + win - 1);
+                if (end - start < win - 1) start = Math.max(1, end - win + 1);
+                const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+                const btnBase = 'w-8 h-8 rounded-md text-xs font-bold transition-all flex items-center justify-center';
+                const btnActive = 'bg-[#16A085] text-white shadow-lg shadow-teal-500/20';
+                const btnInactive = 'bg-white/5 text-[#C4E9F9]/50 hover:bg-white/10 hover:text-white border border-white/10';
+                const btnDisabled = 'bg-white/5 text-white/20 border border-white/5 cursor-not-allowed';
+                return (
+                  <div className="flex gap-1.5 items-center">
+                    <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className={`${btnBase} ${currentPage === 1 ? btnDisabled : btnInactive}`}>‹</button>
+                    {pages.map(page => (
+                      <button key={page} onClick={() => setCurrentPage(page)} className={`${btnBase} ${page === currentPage ? btnActive : btnInactive}`}>{page}</button>
+                    ))}
+                    <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className={`${btnBase} ${currentPage === totalPages ? btnDisabled : btnInactive}`}>›</button>
+                  </div>
+                );
+              })()}
 
               {pagedDocuments.length > 0 ? (
                 <div className="space-y-3">{pagedDocuments.map(doc => renderCRICard(doc))}</div>
@@ -823,23 +962,27 @@ export default function Home() {
               )}
 
               {/* Bottom pagination (repeated for convenience) */}
-              {totalPages > 1 && (
-                <div className="flex flex-wrap gap-1.5 pt-2 border-t border-white/5">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                    <button
-                      key={page}
-                      onClick={() => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                      className={`w-8 h-8 rounded-md text-xs font-bold transition-all ${
-                        page === currentPage
-                          ? 'bg-[#16A085] text-white shadow-lg shadow-teal-500/20'
-                          : 'bg-white/5 text-[#C4E9F9]/50 hover:bg-white/10 hover:text-white border border-white/10'
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  ))}
-                </div>
-              )}
+              {totalPages > 1 && (() => {
+                const win = 5;
+                let start = Math.max(1, currentPage - Math.floor(win / 2));
+                let end = Math.min(totalPages, start + win - 1);
+                if (end - start < win - 1) start = Math.max(1, end - win + 1);
+                const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+                const btnBase = 'w-8 h-8 rounded-md text-xs font-bold transition-all flex items-center justify-center';
+                const btnActive = 'bg-[#16A085] text-white shadow-lg shadow-teal-500/20';
+                const btnInactive = 'bg-white/5 text-[#C4E9F9]/50 hover:bg-white/10 hover:text-white border border-white/10';
+                const btnDisabled = 'bg-white/5 text-white/20 border border-white/5 cursor-not-allowed';
+                const go = (page: number) => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+                return (
+                  <div className="flex gap-1.5 items-center pt-2 border-t border-white/5">
+                    <button onClick={() => go(Math.max(1, currentPage - 1))} disabled={currentPage === 1} className={`${btnBase} ${currentPage === 1 ? btnDisabled : btnInactive}`}>‹</button>
+                    {pages.map(page => (
+                      <button key={page} onClick={() => go(page)} className={`${btnBase} ${page === currentPage ? btnActive : btnInactive}`}>{page}</button>
+                    ))}
+                    <button onClick={() => go(Math.min(totalPages, currentPage + 1))} disabled={currentPage === totalPages} className={`${btnBase} ${currentPage === totalPages ? btnDisabled : btnInactive}`}>›</button>
+                  </div>
+                );
+              })()}
             </div>
           </div>
         )}
@@ -1038,14 +1181,25 @@ export default function Home() {
 
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
               <div className="lg:col-span-3 aventos-card p-0 overflow-hidden flex flex-col">
-                <div className="bg-white/5 p-5 border-b border-white/8 flex items-center gap-3 shrink-0">
-                  <div className="w-8 h-8 rounded-lg bg-[#3691ED]/15 flex items-center justify-center">
-                    <Newspaper className="w-4 h-4 text-[#3691ED]" />
+                <div className="bg-white/5 p-5 border-b border-white/8 flex items-center justify-between gap-3 shrink-0">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-[#3691ED]/15 flex items-center justify-center">
+                      <Newspaper className="w-4 h-4 text-[#3691ED]" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white text-sm" style={{ fontFamily: "'Poppins', sans-serif" }}>Notícias do Mercado de CRI</h4>
+                      <p className="text-[10px] text-[#C4E9F9]/40 mt-0.5">Google News · atualiza a cada 5 min</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-white text-sm" style={{ fontFamily: "'Poppins', sans-serif" }}>Notícias do Mercado de CRI</h4>
-                    <p className="text-[10px] text-[#C4E9F9]/40 mt-0.5">Feed atualizado via API</p>
-                  </div>
+                  <button
+                    onClick={() => refetchNews()}
+                    disabled={isFetchingNews}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-[#C4E9F9]/60 hover:bg-white/10 hover:text-white transition-all disabled:opacity-40"
+                    title="Atualizar notícias"
+                  >
+                    <RefreshCw className={`w-3 h-3 ${isFetchingNews ? 'animate-spin' : ''}`} />
+                    {isFetchingNews ? 'Atualizando...' : 'Atualizar'}
+                  </button>
                 </div>
                 <div className="divide-y divide-white/5 overflow-y-auto custom-scrollbar flex-1">
                   {formattedNewsData.map((news) => {
@@ -1141,6 +1295,12 @@ export default function Home() {
             </div>
           </div>
         )}
+
+        {mainView === 'linkedin' && (
+          <div className="space-y-8 aventos-fadein">
+            <LinkedInContacts />
+          </div>
+        )}
       </main>
 
       <footer className="border-t border-white/8 py-12 mt-16">
@@ -1159,6 +1319,7 @@ export default function Home() {
                 <li><button onClick={() => setMainView('dashboard')} className="text-[#C4E9F9]/40 hover:text-[#16A085] transition-colors" style={{ fontFamily: "'Poppins', sans-serif" }}>Dashboard</button></li>
                 <li><button onClick={() => setMainView('reports')} className="text-[#C4E9F9]/40 hover:text-[#16A085] transition-colors" style={{ fontFamily: "'Poppins', sans-serif" }}>Relatórios</button></li>
                 <li><button onClick={() => setMainView('market')} className="text-[#C4E9F9]/40 hover:text-[#16A085] transition-colors" style={{ fontFamily: "'Poppins', sans-serif" }}>Mercado</button></li>
+                <li><button onClick={() => setMainView('linkedin')} className="text-[#C4E9F9]/40 hover:text-[#16A085] transition-colors" style={{ fontFamily: "'Poppins', sans-serif" }}>LinkedIn</button></li>
               </ul>
             </div>
             <div>

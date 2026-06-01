@@ -1,0 +1,255 @@
+{
+  "name": "Aventos-CRI-DASHBOARD - LinkedIn Search",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "trigger-cron",
+      "name": "Agenda Diária (8h, dias úteis)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [200, 400]
+    },
+    {
+      "parameters": {},
+      "id": "trigger-manual",
+      "name": "Executar Manualmente",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [200, 600]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "termos",
+              "name": "termos",
+              "value": "={{ ['CRI', 'Certificado de Recebíveis Imobiliários', 'securitização imobiliária'] }}",
+              "type": "array"
+            },
+            {
+              "id": "categorias",
+              "name": "categorias",
+              "value": "={{ [{'nome':'posts','path':'linkedin.com/posts'},{'nome':'perfis','path':'linkedin.com/in'},{'nome':'empresas','path':'linkedin.com/company'}] }}",
+              "type": "array"
+            },
+            {
+              "id": "cse_id",
+              "name": "cse_id",
+              "value": "SEU_CSE_ID_AQUI",
+              "type": "string"
+            },
+            {
+              "id": "data_execucao",
+              "name": "data_execucao",
+              "value": "={{ $now.format('yyyy-MM-dd HH:mm') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "config",
+      "name": "Configuração",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [440, 500]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Produto cartesiano: cada termo × cada categoria = 1 query\nconst termos = $input.first().json.termos;\nconst categorias = $input.first().json.categorias;\nconst cse_id = $input.first().json.cse_id;\nconst data_execucao = $input.first().json.data_execucao;\n\nconst queries = [];\nfor (const termo of termos) {\n  for (const cat of categorias) {\n    queries.push({\n      json: {\n        termo,\n        categoria: cat.nome,\n        path: cat.path,\n        query: `site:${cat.path} \"${termo}\"`,\n        cse_id,\n        data_execucao\n      }\n    });\n  }\n}\nreturn queries;"
+      },
+      "id": "gerar-queries",
+      "name": "Gerar Queries (cartesiano)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 500]
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/customsearch/v1",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "q",   "value": "={{ $json.query }}" },
+            { "name": "cx",  "value": "={{ $json.cse_id }}" },
+            { "name": "num", "value": "10" },
+            { "name": "lr",  "value": "lang_pt" },
+            { "name": "gl",  "value": "br" }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": { "batchSize": 1, "batchInterval": 1500 }
+          },
+          "response": {
+            "response": { "neverError": true }
+          }
+        }
+      },
+      "id": "buscar-google-cse",
+      "name": "Google CSE Search",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [920, 500]
+    },
+    {
+      "parameters": {
+        "jsCode": "const out = [];\n\nfor (const item of $input.all()) {\n  const ctx = item.json;\n  const items = ctx.items || [];\n  if (!items.length) continue;\n\n  for (const r of items) {\n    const url = r.link || '';\n    if (!url.includes('linkedin.com')) continue;\n\n    let slug = '';\n    try {\n      const parts = new URL(url).pathname.split('/').filter(Boolean);\n      if (parts.includes('in'))      slug = parts[parts.indexOf('in')      + 1] || '';\n      else if (parts.includes('company')) slug = parts[parts.indexOf('company') + 1] || '';\n      else if (parts.includes('posts'))   slug = parts[parts.indexOf('posts')   + 1] || '';\n    } catch (e) {}\n\n    let cat = '';\n    if (url.includes('/in/'))      cat = 'perfis';\n    else if (url.includes('/company/')) cat = 'empresas';\n    else if (url.includes('/posts/'))   cat = 'posts';\n    else cat = 'outros';\n\n    out.push({\n      json: {\n        categoria:    cat,\n        titulo:       r.title       || '',\n        url,\n        slug,\n        snippet:      r.snippet     || '',\n        display_link: r.displayLink || '',\n        data_busca:   new Date().toISOString().slice(0, 16).replace('T', ' ')\n      }\n    });\n  }\n}\n\nreturn out;"
+      },
+      "id": "parse-resultados",
+      "name": "Parse Resultados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1160, 500]
+    },
+    {
+      "parameters": {
+        "operation": "removeDuplicates",
+        "compareDataFields": "url",
+        "options": {}
+      },
+      "id": "dedup",
+      "name": "Remover Duplicatas (por URL)",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [1400, 500]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "CREATE TABLE IF NOT EXISTS aventos_cri_linkedin (\n  id           SERIAL PRIMARY KEY,\n  categoria    TEXT,\n  titulo       TEXT,\n  url          TEXT UNIQUE,\n  slug         TEXT,\n  snippet      TEXT,\n  display_link TEXT,\n  data_busca   TIMESTAMP,\n  criado_em    TIMESTAMP DEFAULT NOW()\n);",
+        "options": {}
+      },
+      "id": "pg-criar-tabela",
+      "name": "PG: Criar Tabela (se não existe)",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1640, 320],
+      "credentials": {
+        "postgres": { "id": "PG_CRED_ID", "name": "Postgres Aventos" }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO aventos_cri_linkedin\n  (categoria, titulo, url, slug, snippet, display_link, data_busca)\nVALUES\n  ($1, $2, $3, $4, $5, $6, $7::timestamp)\nON CONFLICT (url) DO UPDATE SET\n  titulo       = EXCLUDED.titulo,\n  snippet      = EXCLUDED.snippet,\n  data_busca   = EXCLUDED.data_busca;",
+        "options": {
+          "queryReplacement": "={{ $json.categoria }},{{ $json.titulo }},{{ $json.url }},{{ $json.slug }},{{ $json.snippet }},{{ $json.display_link }},{{ $json.data_busca }}"
+        }
+      },
+      "id": "pg-upsert",
+      "name": "PG: Upsert Resultados",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1640, 500],
+      "credentials": {
+        "postgres": { "id": "PG_CRED_ID", "name": "Postgres Aventos" }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "id": "agrega-csv",
+      "name": "Agregar para CSV",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [1640, 700]
+    },
+    {
+      "parameters": {
+        "operation": "toFile",
+        "fileFormat": "csv",
+        "options": {
+          "fileName": "=linkedin_cri_{{ $now.format('yyyy-MM-dd_HHmm') }}.csv",
+          "headerRow": true
+        }
+      },
+      "id": "converte-csv",
+      "name": "Converte para CSV",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "typeVersion": 2,
+      "position": [1880, 700]
+    },
+    {
+      "parameters": {
+        "operation": "upload",
+        "name": "=linkedin_cri_{{ $now.format('yyyy-MM-dd_HHmm') }}.csv",
+        "driveId": { "__rl": true, "mode": "list", "value": "My Drive" },
+        "folderId": { "__rl": true, "mode": "list", "value": "ID_DA_PASTA_AVENTOS_CRI" },
+        "options": {}
+      },
+      "id": "drive-upload",
+      "name": "Google Drive: Upload CSV",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [2120, 700],
+      "credentials": {
+        "googleDriveOAuth2Api": { "id": "DRIVE_CRED_ID", "name": "Google Drive Aventos" }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Aventos-CRI-DASHBOARD\n### LinkedIn Search via Google CSE\n\n**Custo:** zero. Google CSE free = 100 buscas/dia.\nEste workflow gasta 9 buscas/dia (3 termos × 3 categorias).\n\n**Antes de ativar:**\n- Definir CSE ID no nó Configuração\n- Criar credencial Google CSE API Key (Query Auth: key=API_KEY)\n- Configurar Postgres e Google Drive\n- Trocar ID_DA_PASTA_AVENTOS_CRI pelo ID real",
+        "height": 260,
+        "width": 380
+      },
+      "id": "sticky-doc",
+      "name": "Documentação",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [200, 80]
+    }
+  ],
+  "connections": {
+    "Agenda Diária (8h, dias úteis)": {
+      "main": [[{ "node": "Configuração", "type": "main", "index": 0 }]]
+    },
+    "Executar Manualmente": {
+      "main": [[{ "node": "Configuração", "type": "main", "index": 0 }]]
+    },
+    "Configuração": {
+      "main": [[{ "node": "Gerar Queries (cartesiano)", "type": "main", "index": 0 }]]
+    },
+    "Gerar Queries (cartesiano)": {
+      "main": [[{ "node": "Google CSE Search", "type": "main", "index": 0 }]]
+    },
+    "Google CSE Search": {
+      "main": [[{ "node": "Parse Resultados", "type": "main", "index": 0 }]]
+    },
+    "Parse Resultados": {
+      "main": [[{ "node": "Remover Duplicatas (por URL)", "type": "main", "index": 0 }]]
+    },
+    "Remover Duplicatas (por URL)": {
+      "main": [[
+        { "node": "PG: Criar Tabela (se não existe)", "type": "main", "index": 0 },
+        { "node": "Agregar para CSV", "type": "main", "index": 0 }
+      ]]
+    },
+    "PG: Criar Tabela (se não existe)": {
+      "main": [[{ "node": "PG: Upsert Resultados", "type": "main", "index": 0 }]]
+    },
+    "Agregar para CSV": {
+      "main": [[{ "node": "Converte para CSV", "type": "main", "index": 0 }]]
+    },
+    "Converte para CSV": {
+      "main": [[{ "node": "Google Drive: Upload CSV", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "Aventos-CRI-DASHBOARD" }]
+}

@@ -72,6 +72,7 @@ async function searchNewLaunches(): Promise<NewLaunch[]> {
   const queries = [
     'nova+emissão+CRI+securitizadora+2026',
     'CRI+aprovado+emissão+ANBIMA+CVM+2026',
+    'CRI+emissão+registro+CVM+recebível+imobiliário+2026',
   ];
 
   for (const q of queries) {

@@ -17,6 +17,9 @@ export interface CRIData {
   carteira: 'Portfólio Principal' | 'Centro-Oeste' | 'High Yield';
   cetipCode?: string;
   isin?: string;
+  cidade?: string;
+  estado?: string;
+  regiao?: string;
 }
 
 export interface IndicatorData {
@@ -44,18 +47,15 @@ export interface NewsItem {
   timestamp?: number;
 }
 
-export interface DiscoveryItem {
-  id: string;
-  name: string;
-}
 
 export interface UseCRIDataResult {
   cris: CRIData[] | null;
   indicators: IndicatorData[] | null;
   news: NewsItem[] | null;
-  discoveries: DiscoveryItem[] | null;
   loading: boolean;
   error: string | null;
+  refetchNews: () => void;
+  isFetchingNews: boolean;
 }
 
 const PORTFOLIO_MAP: Record<string, CRIData['carteira']> = {
@@ -119,6 +119,9 @@ function mapAnbimaToCRIData(raw: any, idx: number): CRIData {
     carteira: PORTFOLIO_MAP[raw.portfolio] ?? 'Portfólio Principal',
     cetipCode: raw.cetipCode,
     isin: raw.isin,
+    cidade: raw.cidade || '',
+    estado: raw.estado || '',
+    regiao: raw.regiao || '',
   };
 }
 
@@ -137,93 +140,55 @@ export const useCRIData = (): UseCRIDataResult => {
   const { data: anbimaData, isLoading: anbimaLoading } = trpc.anbima.get.useQuery(undefined, {
     retry: 1,
     staleTime: 60 * 60 * 1000,
-    refetchInterval: 60 * 60 * 1000,      // refresh CRI list every 1h
-    refetchIntervalInBackground: false,
-  });
-
-  const { data: gnewsData } = trpc.gnewsEmissions.get.useQuery(undefined, {
-    retry: 1,
-    staleTime: 15 * 60 * 1000,
-    refetchInterval: 15 * 60 * 1000,      // refresh news every 15 min
-    refetchIntervalInBackground: false,
-  });
-
-  const { data: googleSearchData } = trpc.googleSearch.searchCRI.useQuery(undefined, {
-    retry: 1,
-    staleTime: 60 * 60 * 1000,
     refetchInterval: 60 * 60 * 1000,
     refetchIntervalInBackground: false,
   });
 
-  const { data: launchesData } = trpc.newLaunches.search.useQuery(undefined, {
-    retry: 1,
-    staleTime: 15 * 60 * 1000,
-    refetchInterval: 15 * 60 * 1000,      // refresh launches every 15 min
-    refetchIntervalInBackground: false,
-  });
+  const { data: gnewsData, refetch: refetchNews, isFetching: isFetchingNews } =
+    trpc.gnewsEmissions.get.useQuery(undefined, {
+      retry: 1,
+      staleTime: 0,
+      refetchInterval: 5 * 60 * 1000,
+      refetchIntervalInBackground: true,
+    });
 
-  // Map ANBIMA CRIs to CRIData format
   const cris: CRIData[] | null = useMemo(() => {
     const rawCRIs = anbimaData?.cris;
     if (!Array.isArray(rawCRIs) || rawCRIs.length === 0) return null;
     return rawCRIs.map((raw: any, idx: number) => mapAnbimaToCRIData(raw, idx));
   }, [anbimaData]);
 
+  // Indicators: efeito separado para não bloquear notícias
+  useEffect(() => {
+    const indicatorsArray = Array.isArray(indicatorsData) ? indicatorsData : [];
+    if (indicatorsArray.length > 0) {
+      setIndicators(indicatorsArray);
+      setError(null);
+    }
+  }, [indicatorsData]);
+
+  // News: efeito independente, sempre usa a data de hoje na exibição
   useEffect(() => {
     try {
-      const indicatorsArray = Array.isArray(indicatorsData) ? indicatorsData : [];
-      if (indicatorsArray.length > 0) {
-        setIndicators(indicatorsArray);
-        setError(null);
-      }
-
       const gnewsArray = Array.isArray(gnewsData) ? gnewsData : [];
-      const googleArray = Array.isArray(googleSearchData) ? googleSearchData : [];
-      const launchesArray = Array.isArray(launchesData?.launches) ? launchesData.launches : [];
+      if (gnewsArray.length === 0) return;
 
-      const launchesNews = launchesArray.map((launch: any) => ({
-        id: launch.id,
-        title: launch.title,
-        summary: launch.description,
-        source: launch.source,
-        url: launch.sourceUrl,
-        category: 'novo-lançamento',
-        publishedDate: launch.publishedDate, // ISO string from server
-        date: launch.publishedDate,
+      const today = new Date();
+      const todayDisplay = today.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+      const todayTime = today.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit' });
+
+      const allNews = gnewsArray.map((item: any) => ({
+        ...item,
+        displayDate: todayDisplay,
+        displayTime: todayTime,
+        timestamp: today.getTime(),
       }));
 
-      const now = new Date();
-
-      const allNews = [...gnewsArray, ...launchesNews, ...googleArray.slice(0, 3)]
-        .map((item: any) => {
-          // Accept ISO strings, Date objects, or Brazilian "DD/MM/YYYY" strings
-          let pubDate: Date;
-          const raw = item.publishedDate || item.date;
-          if (!raw) {
-            pubDate = now;
-          } else if (typeof raw === 'string' && /^\d{2}\/\d{2}\/\d{4}$/.test(raw)) {
-            // Brazilian format DD/MM/YYYY → parse manually
-            const [d, m, y] = raw.split('/').map(Number);
-            pubDate = new Date(y, m - 1, d);
-          } else {
-            pubDate = new Date(raw);
-          }
-          // Clamp future dates
-          if (isNaN(pubDate.getTime()) || pubDate > now) pubDate = now;
-          return {
-            ...item,
-            displayDate: pubDate.toLocaleDateString('pt-BR'),
-            displayTime: pubDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
-            timestamp: pubDate.getTime(),
-          };
-        })
-        .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-
-      if (allNews.length > 0) setNews(allNews as NewsItem[]);
+      setNews(allNews as NewsItem[]);
     } catch (err: any) {
-      console.error('Erro ao processar dados:', err);
+      console.error('Erro ao processar notícias:', err);
     }
-  }, [indicatorsData, gnewsData, googleSearchData, launchesData]);
+  }, [gnewsData]);
 
   const loading = (indLoading || anbimaLoading) && !indicators && !cris;
 
@@ -231,8 +196,9 @@ export const useCRIData = (): UseCRIDataResult => {
     cris,
     indicators,
     news,
-    discoveries: null,
     loading,
     error,
+    refetchNews,
+    isFetchingNews,
   };
 };

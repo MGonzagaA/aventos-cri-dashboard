@@ -7,4 +7,7 @@ export const ENV = {
   isProduction: process.env.NODE_ENV === "production",
   forgeApiUrl: process.env.BUILT_IN_FORGE_API_URL ?? "",
   forgeApiKey: process.env.BUILT_IN_FORGE_API_KEY ?? "",
+  // Google Custom Search Engine (LinkedIn search)
+  googleCseKey: process.env.GOOGLE_CSE_KEY ?? "",
+  googleCseId:  process.env.GOOGLE_CSE_ID  ?? "",
 };

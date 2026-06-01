@@ -1,6 +1,11 @@
 node_modules
 .env
+.env.local
 dist
 .vscode
 .claude
 .cursor
+data/
+*.db
+*.sqlite
+service-account.json

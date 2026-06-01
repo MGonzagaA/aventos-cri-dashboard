@@ -10,9 +10,9 @@ interface NewsArticle {
 
 let newsCache: NewsArticle[] = [];
 let cacheTimestamp = 0;
-const CACHE_DURATION = 15 * 60 * 1000; // 15 min
+const CACHE_DURATION = 5 * 60 * 1000; // 5 min
 
-// ─── Simple RSS/XML parser (no dependencies) ──────────────────────────────────
+// ─── RSS/XML parser ───────────────────────────────────────────────────────────
 
 function extractTag(xml: string, tag: string): string {
   const m = xml.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i'));
@@ -30,7 +30,6 @@ function decodeHtmlEntities(str: string): string {
 }
 
 function stripHtml(raw: string): string {
-  // First decode encoded entities so &lt;a&gt; becomes <a>, then strip all tags
   return decodeHtmlEntities(raw)
     .replace(/<[^>]+>/g, ' ')
     .replace(/\s+/g, ' ')
@@ -45,31 +44,30 @@ function parseRSS(xml: string): NewsArticle[] {
     const rawTitle = decodeHtmlEntities(extractTag(item, 'title'));
     if (!rawTitle) continue;
 
-    // Google News RSS: real URL is inside description's href, not in <link>
+    // Google News embeds real URL inside description's href
     const descRaw = extractTag(item, 'description');
     const hrefMatch = descRaw.match(/href="([^"]+)"/i) || descRaw.match(/href='([^']+)'/i);
     const link = hrefMatch ? decodeHtmlEntities(hrefMatch[1]) : extractTag(item, 'link');
+    if (!link) continue;
 
     const pubDate = extractTag(item, 'pubDate');
     const sourceTag = extractTag(item, 'source');
 
-    // Strip "- Source Name" suffix appended by Google News
+    // Google News appends "- Source Name" to title
     const titleParts = rawTitle.split(' - ');
     const source = sourceTag || (titleParts.length > 1 ? titleParts[titleParts.length - 1] : 'Google News');
     const title = titleParts.length > 1 ? titleParts.slice(0, -1).join(' - ') : rawTitle;
 
-    // Plain-text summary (Google News descriptions are just title + source links)
     const plainDesc = stripHtml(descRaw).replace(source, '').trim();
-    const summary = (plainDesc.length > 20 ? plainDesc : title).substring(0, 200);
+    const description = (plainDesc.length > 20 ? plainDesc : title).substring(0, 250);
 
-    // Clamp future dates to now (RSS sometimes has pre-scheduled dates)
     const now = new Date();
     const rawDate = pubDate ? new Date(pubDate) : now;
     const safeDate = isNaN(rawDate.getTime()) || rawDate > now ? now : rawDate;
 
     items.push({
       title,
-      description: summary,
+      description,
       url: link,
       publishedAt: safeDate.toISOString(),
       source,
@@ -79,14 +77,15 @@ function parseRSS(xml: string): NewsArticle[] {
   return items;
 }
 
-// ─── Google News RSS (free, no API key) ───────────────────────────────────────
+// ─── Google News RSS queries ──────────────────────────────────────────────────
 
 const RSS_QUERIES = [
-  'CRI+emissão+certificado+recebível+imobiliário',
-  'securitizadora+CRI+novo+lançamento',
+  'CRI+"certificado+de+recebível+imobiliário"',
+  'CRI+emissão+securitizadora+mercado+de+capitais',
+  'CRI+inadimplência+OR+vencimento+OR+refinanciamento',
 ];
 
-async function fetchGoogleNewsRSS(): Promise<NewsArticle[]> {
+async function fetchGoogleNews(): Promise<NewsArticle[]> {
   const articles: NewsArticle[] = [];
   const seen = new Set<string>();
 
@@ -97,7 +96,10 @@ async function fetchGoogleNewsRSS(): Promise<NewsArticle[]> {
         headers: { 'User-Agent': 'Mozilla/5.0 (compatible; CRIDashboard/1.0)' },
         signal: AbortSignal.timeout(8000),
       });
-      if (!res.ok) continue;
+      if (!res.ok) {
+        console.warn(`[GoogleNews] HTTP ${res.status} para query "${q}"`);
+        continue;
+      }
 
       const xml = await res.text();
       const items = parseRSS(xml);
@@ -108,113 +110,65 @@ async function fetchGoogleNewsRSS(): Promise<NewsArticle[]> {
           articles.push(item);
         }
       }
+      console.log(`[GoogleNews] Query "${q}": ${items.length} artigos`);
     } catch (e: any) {
-      console.warn(`[GoogleRSS] Query "${q}" falhou: ${e.message}`);
+      console.warn(`[GoogleNews] Erro na query "${q}": ${e.message}`);
     }
   }
 
-  console.log(`[GoogleRSS] ${articles.length} notícias obtidas via RSS`);
-  return articles.slice(0, 20);
+  // Sort by most recent
+  articles.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  console.log(`[GoogleNews] Total: ${articles.length} notícias únicas`);
+  return articles.slice(0, 30);
 }
 
-// ─── GNews API (if key is available) ─────────────────────────────────────────
+// ─── Cache + fetch ────────────────────────────────────────────────────────────
 
-async function fetchFromGNews(): Promise<NewsArticle[]> {
-  const apiKey = process.env.GNEWS_API_KEY;
-  if (!apiKey) return [];
-
-  try {
-    const query = 'CRI "certificado de recebível" emissão';
-    const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=pt&sortby=publishedAt&max=10&apikey=${apiKey}`;
-    const response = await fetch(url, { signal: AbortSignal.timeout(8000) });
-    if (!response.ok) return [];
-
-    const data = await response.json();
-    return (data.articles || []).map((a: any) => ({
-      title: a.title,
-      description: a.description || '',
-      url: a.url,
-      publishedAt: a.publishedAt,
-      source: a.source?.name || 'GNews',
-    }));
-  } catch {
-    return [];
-  }
-}
-
-// ─── SerpAPI fallback (if key is available) ───────────────────────────────────
-
-async function fetchFromSerpAPI(): Promise<NewsArticle[]> {
-  const apiKey = process.env.SERPAPI_API_KEY;
-  if (!apiKey) return [];
-
-  try {
-    const url = `https://serpapi.com/search.json?engine=google_news&q=${encodeURIComponent('CRI emissão certificado recebível imobiliário')}&hl=pt&gl=br&api_key=${apiKey}`;
-    const response = await fetch(url, { signal: AbortSignal.timeout(8000) });
-    if (!response.ok) return [];
-
-    const data = await response.json();
-    return (data.news_results || []).slice(0, 10).map((r: any) => ({
-      title: r.title,
-      description: r.snippet || '',
-      url: r.link,
-      publishedAt: r.date || new Date().toISOString(),
-      source: r.source?.name || 'Google News',
-    }));
-  } catch {
-    return [];
-  }
-}
-
-// ─── Main fetch with priority chain ──────────────────────────────────────────
-
-async function fetchNews(): Promise<NewsArticle[]> {
-  if (newsCache.length > 0 && Date.now() - cacheTimestamp < CACHE_DURATION) {
-    console.log('[News Cache] Retornando dados em cache');
+async function getNews(forceRefresh = false): Promise<NewsArticle[]> {
+  if (!forceRefresh && newsCache.length > 0 && Date.now() - cacheTimestamp < CACHE_DURATION) {
+    console.log('[GoogleNews] Cache hit');
     return newsCache;
   }
 
-  console.log('[News] Buscando notícias de CRI...');
-
-  // 1. GNews API (key-gated, best quality)
-  let articles = await fetchFromGNews();
-
-  // 2. Google News RSS (free, always available)
-  if (articles.length === 0) {
-    console.log('[News] Tentando Google News RSS...');
-    articles = await fetchGoogleNewsRSS();
-  }
-
-  // 3. SerpAPI (key-gated fallback)
-  if (articles.length === 0) {
-    console.log('[News] Tentando SerpAPI...');
-    articles = await fetchFromSerpAPI();
-  }
+  console.log('[GoogleNews] Buscando notícias de CRI...');
+  const articles = await fetchGoogleNews();
 
   if (articles.length > 0) {
     newsCache = articles;
     cacheTimestamp = Date.now();
+  } else if (newsCache.length > 0) {
+    console.warn('[GoogleNews] Sem resultados, mantendo cache anterior');
   }
 
-  console.log(`[News] Total: ${articles.length} notícias carregadas`);
-  return articles;
+  return articles.length > 0 ? articles : newsCache;
 }
 
 // ─── Router ───────────────────────────────────────────────────────────────────
 
 export const gnewsEmissionsRouter = router({
   get: publicProcedure.query(async () => {
-    const articles = await fetchNews();
-
-    return articles.map((article, idx) => ({
-      id: `news-${idx}`,
-      title: article.title,
-      summary: article.description,
-      url: article.url,
-      source: article.source,
+    const articles = await getNews();
+    const today = new Date();
+    const todayStr = today.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+    const dayKey = today.toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' }); // YYYY-MM-DD para ID único
+    return articles.map((a, idx) => ({
+      id: `gnews-${idx}-${dayKey}`, // ID muda a cada novo dia (meia-noite BRT)
+      title: a.title,
+      summary: a.description,
+      url: a.url,
+      source: a.source,
       category: 'emissão',
-      publishedDate: new Date(article.publishedAt),
-      date: new Date(article.publishedAt).toLocaleDateString('pt-BR'),
+      publishedDate: today,
+      originalPublishedAt: a.publishedAt,
+      date: todayStr, // sempre data de hoje em BRT
     }));
+  }),
+
+  refresh: publicProcedure.mutation(async () => {
+    const articles = await getNews(true);
+    return {
+      count: articles.length,
+      updatedAt: new Date().toISOString(),
+    };
   }),
 });

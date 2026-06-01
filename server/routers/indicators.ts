@@ -1,5 +1,9 @@
 import { publicProcedure, router } from "../_core/trpc";
 
+let indicatorsCache: any[] | null = null;
+let indicatorsCacheTime = 0;
+const INDICATORS_CACHE_TTL = 60 * 60 * 1000; // 1h
+
 // Função utilitária para buscar dados ao BCB
 async function fetchBcbData(serieId: number): Promise<number | null> {
   try {
@@ -22,13 +26,11 @@ async function fetchBcbData(serieId: number): Promise<number | null> {
 export const indicatorsRouter = router({
   get: publicProcedure.query(async () => {
     try {
-      // Códigos oficiais das séries temporais do Banco Central:
-      // 432: Taxa Selic Meta (% a.a.)
-      // 4389: Taxa de Juros - CDI anualizada (% a.a.)
-      // 13522: IPCA - Acumulado 12 meses (%)
-      // 189: IGP-M - Variação mensal (%)
-      
-      // Dispara todas as requisições em paralelo para ser muito mais rápido
+      if (indicatorsCache && Date.now() - indicatorsCacheTime < INDICATORS_CACHE_TTL) {
+        console.log("[Indicators Cache] Retornando indicadores em cache");
+        return indicatorsCache;
+      }
+
       const [selic, cdi, ipca, igpm] = await Promise.all([
         fetchBcbData(432),
         fetchBcbData(4389),
@@ -82,9 +84,15 @@ export const indicatorsRouter = router({
         },
       ];
 
+      indicatorsCache = indicators;
+      indicatorsCacheTime = Date.now();
       return indicators;
     } catch (error) {
       console.error('Erro ao processar indicadores:', error);
+      if (indicatorsCache) {
+        console.log("[Indicators] Retornando cache anterior após erro");
+        return indicatorsCache;
+      }
       throw new Error('Erro ao processar indicadores');
     }
   })
