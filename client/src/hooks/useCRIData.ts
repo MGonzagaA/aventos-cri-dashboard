@@ -14,12 +14,13 @@ export interface CRIData {
   downloadLink: string;
   linkType: 'direct' | 'portal';
   lastro: string;
-  carteira: 'Portfólio Principal' | 'Centro-Oeste' | 'High Yield';
+  carteira: 'Portfólio Principal' | 'Centro-Oeste' | 'High Yield' | 'RizaSec';
   cetipCode?: string;
   isin?: string;
   cidade?: string;
   estado?: string;
   regiao?: string;
+  cvmNotFound?: boolean;
 }
 
 export interface IndicatorData {

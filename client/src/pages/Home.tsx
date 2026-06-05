@@ -11,8 +11,11 @@ import {
   X, Calculator, Link2, FileCheck, ChevronDown, ChevronUp, DollarSign, Percent, Loader2, MessageCircle, Linkedin, RefreshCw
 } from 'lucide-react';
 import { useCRIData, CRIData, IndicatorData, NewsItem } from '@/hooks/useCRIData';
+import { trpc } from '@/lib/trpc';
 import { AdminPanel } from '@/components/AdminPanel';
+import { RizaSecDetailModal } from '@/components/RizaSecDetailModal';
 import { criDocuments as criDocumentsData, criCentroOeste as criCentroOesteData, criHighYield as criHighYieldData } from '@/data/criData';
+import { criRizaSec } from '@/data/criRizaSecData';
 import {
   PieChart as RechartsPie, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Legend
@@ -50,7 +53,11 @@ const securitizerDocLinks: Record<string, { portal: string; documents: string; l
   '2': { portal: 'https://virgo.inc/', documents: 'https://virgo.inc/investidores/', label: 'Virgo - Investidores' },
   '3': { portal: 'https://fortesec.com.br/', documents: 'https://fortesec.com.br/relacao-investidor/', label: 'Fortesec - Relação com Investidores' },
   '4': { portal: 'https://www.truesecuritizadora.com.br/', documents: 'https://data.anbima.com.br/busca/certificado-de-recebiveis?view=caracteristicas', label: 'True - ANBIMA Data (Documentos)' },
-  '5': { portal: 'https://habitasec.com.br/', documents: 'https://www.vortx.com.br/investidor/dcm', label: 'Habitasec - Vórtx (Documentos)' }
+  '5': { portal: 'https://habitasec.com.br/', documents: 'https://www.vortx.com.br/investidor/dcm', label: 'Habitasec - Vórtx (Documentos)' },
+  '10': { portal: 'https://investidor.rizasec.com/emissoes', documents: 'https://investidor.rizasec.com/emissoes', label: 'Riza Securitizadora - Portal do Investidor' },
+  '20': { portal: 'https://app.opea.com.br/pt/emissoes', documents: 'https://app.opea.com.br/pt/emissoes', label: 'Opea - Portal de Emissões' },
+  '21': { portal: 'https://habitasec.com.br/debentures-e-cri', documents: 'https://habitasec.com.br/debentures-e-cri', label: 'HabitaSec - CRIs' },
+  '22': { portal: 'https://www.barisecuritizadora.com.br/', documents: 'https://www.barisecuritizadora.com.br/', label: 'Bari Securitizadora - Portal' },
 };
 
 const criSpecificDocs: Record<string, { url: string; label: string }> = {
@@ -151,11 +158,25 @@ export default function Home() {
   const [selectedRegiao, setSelectedRegiao] = useState<string | null>(null);
   const [selectedUF, setSelectedUF] = useState<string | null>(null);
 
+  const { data: securitizadorasData } = trpc.securitizadoras.get.useQuery(undefined, {
+    staleTime: 24 * 60 * 60 * 1000,
+  });
+
   // --- INTEGRAÇÃO DE DADOS ---
   const allCRIsData: CRIData[] = useMemo(() => {
-    if (criFromDB && criFromDB.length > 0) return criFromDB;
-    return [...criDocuments, ...criCentroOeste, ...criHighYield];
-  }, [criFromDB]);
+    const base = (criFromDB && criFromDB.length > 0)
+      ? criFromDB
+      : [...criDocuments, ...criCentroOeste, ...criHighYield];
+    const sec = (securitizadorasData as any as CRIData[] | undefined) ?? [];
+    const combined = [...base, ...(criRizaSec as any as CRIData[]), ...sec];
+    const seenIsin = new Set<string>();
+    return combined.filter(doc => {
+      if (!doc.isin) return true;
+      if (seenIsin.has(doc.isin)) return false;
+      seenIsin.add(doc.isin);
+      return true;
+    });
+  }, [criFromDB, securitizadorasData]);
 
   const marketIndicators = useMemo(() => {
     if (!indicatorsFromDB || indicatorsFromDB.length === 0) return staticMarketIndicators;
@@ -192,10 +213,10 @@ export default function Home() {
   const filteredDocuments = useMemo(() => {
     let filtered = allCRIsData;
 
-    const mapTabToCarteira = {
+    const mapTabToCarteira: Record<string, string> = {
       'portfolio': 'Portfólio Principal',
       'centro-oeste': 'Centro-Oeste',
-      'high-yield': 'High Yield'
+      'high-yield': 'High Yield',
     };
     filtered = filtered.filter(doc => doc.carteira === mapTabToCarteira[activeTab]);
 
@@ -228,9 +249,8 @@ export default function Home() {
   }, [allCRIsData]);
   const totalCRIsGlobal = allCRIsData.length;
   const filteredCount = filteredDocuments.length;
-  const docsInCurrentTab = allCRIsData.filter(d => 
-    d.carteira === (activeTab === 'portfolio' ? 'Portfólio Principal' : 'High Yield')
-  ).length;
+  const activeCarteira = activeTab === 'portfolio' ? 'Portfólio Principal' : 'High Yield';
+  const docsInCurrentTab = allCRIsData.filter(d => d.carteira === activeCarteira).length;
 
   // --- LÓGICA DE RELATÓRIOS ---
   const statusData = useMemo(() => {
@@ -264,17 +284,13 @@ export default function Home() {
 
   // Securitizadoras únicas derivadas dos dados reais, ordenadas por nome
   const securitizerOptions = useMemo(() => {
-    const tabCRIs = allCRIsData.filter(c =>
-      c.carteira === (activeTab === 'portfolio' ? 'Portfólio Principal' : 'High Yield')
-    );
+    const tabCRIs = allCRIsData.filter(c => c.carteira === activeCarteira);
     const names = Array.from(new Set(tabCRIs.map(c => c.securitizer).filter(Boolean)));
     return names.sort((a, b) => a.localeCompare(b, 'pt-BR')).map((name, i) => ({ id: String(i), name }));
-  }, [allCRIsData, activeTab]);
+  }, [allCRIsData, activeCarteira]);
 
   const regiaoOptions = useMemo(() => {
-    const tabCRIs = allCRIsData.filter(c =>
-      c.carteira === (activeTab === 'portfolio' ? 'Portfólio Principal' : 'High Yield')
-    );
+    const tabCRIs = allCRIsData.filter(c => c.carteira === activeCarteira);
     const regioes = Array.from(new Set(tabCRIs.map(c => c.regiao).filter(Boolean))) as string[];
     const ORDER = ['Sudeste', 'Centro-Oeste', 'Sul', 'Nordeste', 'Norte'];
     return regioes.sort((a, b) => {
@@ -285,9 +301,7 @@ export default function Home() {
   }, [allCRIsData, activeTab]);
 
   const estadoOptions = useMemo(() => {
-    const tabCRIs = allCRIsData.filter(c =>
-      c.carteira === (activeTab === 'portfolio' ? 'Portfólio Principal' : 'High Yield')
-    );
+    const tabCRIs = allCRIsData.filter(c => c.carteira === activeCarteira);
     const estados = Array.from(new Set(
       tabCRIs
         .filter(c => selectedRegiao ? c.regiao === selectedRegiao : true)
@@ -671,20 +685,35 @@ export default function Home() {
               </h3>
               <p className="text-sm text-[#C4E9F9]/60 font-normal mt-0.5">{doc.debtor}</p>
             </div>
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
               {specificDoc && (
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-semibold bg-[#16A085]/10 text-[#16A085] border border-[#16A085]/20">
                   <FileCheck className="w-3 h-3" /> Doc
+                </span>
+              )}
+              {doc.isin && !doc.cvmNotFound && !doc.id.startsWith('rz') && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-semibold bg-[#3691ED]/15 text-[#3691ED] border border-[#3691ED]/30">
+                  <BarChart3 className="w-3 h-3" /> Dados CVM
+                </span>
+              )}
+              {doc.id.startsWith('rz') && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-semibold bg-purple-500/15 text-purple-300 border border-purple-400/30">
+                  <FileText className="w-3 h-3" /> Série RizaSec
                 </span>
               )}
               <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${getStatusColor(doc.status)}`}>
                 <span className={`w-1.5 h-1.5 rounded-full ${getStatusDot(doc.status)}`}></span>
                 {getStatusLabel(doc.status)}
               </span>
+              {doc.cvmNotFound && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-semibold bg-orange-500/15 text-orange-400 border border-orange-500/30">
+                  <AlertCircle className="w-3 h-3" /> Sem dados CVM
+                </span>
+              )}
             </div>
           </div>
 
-          <div className={`grid grid-cols-2 gap-3 mt-4 ${(doc.cidade || doc.estado || doc.regiao) ? 'lg:grid-cols-5' : 'lg:grid-cols-4'}`}>
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mt-4">
             <div className="bg-white/5 border border-white/8 p-3 rounded-lg">
               <p className="text-[10px] text-[#C4E9F9]/40 uppercase tracking-wider font-semibold mb-1">Código</p>
               <p className="text-sm font-mono text-[#C4E9F9]/90">{doc.code}</p>
@@ -701,22 +730,22 @@ export default function Home() {
               <p className="text-[10px] text-[#C4E9F9]/40 uppercase tracking-wider font-semibold mb-1">Securitizadora</p>
               <p className="text-sm font-medium text-[#C4E9F9]/80 truncate">{doc.securitizer}</p>
             </div>
-            {(doc.cidade || doc.estado || doc.regiao) && (
-              <div className="bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg">
-                <p className="text-[10px] text-[#C4E9F9]/40 uppercase tracking-wider font-semibold mb-1">Localização</p>
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-3 h-3 text-amber-400 shrink-0" />
-                  {doc.estado ? (
+            <div className={`p-3 rounded-lg border ${(doc.cidade || doc.estado || doc.regiao) ? 'bg-amber-500/10 border-amber-500/20' : 'bg-white/5 border-white/8'}`}>
+              <p className="text-[10px] text-[#C4E9F9]/40 uppercase tracking-wider font-semibold mb-1">Localização</p>
+              {(doc.cidade || doc.estado || doc.regiao) ? (
+                <div>
+                  <div className="flex items-center gap-1">
+                    <MapPin className="w-3 h-3 text-amber-400 shrink-0" />
                     <p className="text-sm font-medium text-amber-300 truncate">
-                      {doc.cidade ? `${doc.cidade} / ${doc.estado}` : doc.estado}
+                      {doc.cidade ? `${doc.cidade}${doc.estado ? ` / ${doc.estado}` : ''}` : doc.estado || doc.regiao}
                     </p>
-                  ) : (
-                    <p className="text-sm font-medium text-amber-300/70 truncate">{doc.regiao}</p>
-                  )}
+                  </div>
+                  {doc.estado && doc.regiao && <p className="text-[10px] text-[#C4E9F9]/30 mt-0.5 pl-4">{doc.regiao}</p>}
                 </div>
-                {doc.estado && doc.regiao && <p className="text-[10px] text-[#C4E9F9]/30 mt-0.5 pl-4">{doc.regiao}</p>}
-              </div>
-            )}
+              ) : (
+                <p className="text-sm text-[#C4E9F9]/30">—</p>
+              )}
+            </div>
           </div>
 
           {doc.lastro && (
@@ -729,11 +758,20 @@ export default function Home() {
         </div>
 
         <div className="flex flex-row lg:flex-col gap-2 lg:w-44 shrink-0 p-4 lg:p-5" onClick={(e) => e.stopPropagation()}>
-          {doc.isin && (
+          {doc.cvmNotFound ? (
+            <a
+              href={securitizerDocLinks[doc.securitizerId]?.portal ?? '#'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all border border-orange-500/40 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400"
+            >
+              <ExternalLink className="w-4 h-4" /> Portal
+            </a>
+          ) : (doc.isin || doc.id.startsWith('rz')) ? (
             <button onClick={() => setDetailCRI(doc)} className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all border border-[#16A085]/40 bg-[#16A085]/10 hover:bg-[#16A085]/20 text-[#16A085]">
               <Info className="w-4 h-4" /> Detalhes
             </button>
-          )}
+          ) : null}
           <button onClick={() => handleDownload(doc)} className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all bg-[#16A085] hover:bg-[#1abc9c] text-white">
             <Download className="w-4 h-4" /> Download
           </button>
@@ -757,9 +795,16 @@ export default function Home() {
         </div>
       )}
 
-      {detailCRI?.isin && (
+      {detailCRI && !detailCRI.id.startsWith('rz') && detailCRI.isin && (
         <CRIDetailModal
           isin={detailCRI.isin}
+          criName={detailCRI.name}
+          onClose={() => setDetailCRI(null)}
+        />
+      )}
+      {detailCRI && detailCRI.id.startsWith('rz') && (
+        <RizaSecDetailModal
+          criId={detailCRI.id}
           criName={detailCRI.name}
           onClose={() => setDetailCRI(null)}
         />
@@ -818,7 +863,7 @@ export default function Home() {
             <div className="flex gap-2 flex-wrap">
               {[
                 { id: 'portfolio', label: 'Portfólio Principal', count: allCRIsData.filter(c => c.carteira === 'Portfólio Principal').length, icon: Briefcase },
-                { id: 'high-yield', label: 'High Yield', count: allCRIsData.filter(c => c.carteira === 'High Yield').length, icon: AlertTriangle }
+                { id: 'high-yield', label: 'High Yield', count: allCRIsData.filter(c => c.carteira === 'High Yield').length, icon: AlertTriangle },
               ].map(tab => (
                 <button
                   key={tab.id}
@@ -914,7 +959,7 @@ export default function Home() {
             <div className="space-y-4">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <h2 className="aventos-heading text-xl text-white">
-                  {activeTab === 'portfolio' ? 'Portfólio Principal' : 'High Yield'}
+                  {activeCarteira}
                 </h2>
                 <p className="text-xs text-[#C4E9F9]/40 font-medium" style={{ fontFamily: "'Poppins', sans-serif" }}>
                   {filteredCount} ativos · página {currentPage}/{totalPages || 1}
