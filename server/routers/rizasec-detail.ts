@@ -1,11 +1,9 @@
 import { z } from "zod";
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 import { publicProcedure } from "../_core/trpc";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DETAILS_PATH = path.join(__dirname, "..", "data", "rizaDetails.json");
+const DETAILS_PATH = path.join(process.cwd(), "server", "data", "rizaDetails.json");
 
 let detailsCache: Record<string, any> | null = null;
 

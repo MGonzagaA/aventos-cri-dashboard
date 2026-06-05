@@ -1,10 +1,8 @@
 import { publicProcedure } from '../_core/trpc';
 import { readFileSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { join } from 'path';
 
-const __dir = dirname(fileURLToPath(import.meta.url));
-const DATA_PATH = join(__dir, '..', 'data', 'securitizadoras.json');
+const DATA_PATH = join(process.cwd(), 'server', 'data', 'securitizadoras.json');
 
 let cached: any[] | null = null;
 
